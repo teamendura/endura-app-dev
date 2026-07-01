@@ -181,7 +181,8 @@
 <!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   // ─── REPLACE THIS WITH YOUR FIREBASE CONFIG ───────────────────────────────
   const firebaseConfig = {
@@ -196,10 +197,41 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
-  // If already logged in, go straight to dashboard
+  // Only these Firestore "role" values are allowed into the coach dashboard.
+  const ALLOWED_ROLES = ["coach", "admin"];
+
+  // Checks Firestore for a coach/admin role before granting access.
+  // Any authenticated user WITHOUT one of these roles is signed out and blocked.
+  async function verifyCoachAccess(user, errorEl) {
+    try {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const data = userDoc.exists() ? userDoc.data() : {};
+      if (ALLOWED_ROLES.includes(data.role)) {
+        window.location.href = "admin-dashboard.html";
+      } else {
+        await signOut(auth);
+        if (errorEl) {
+          errorEl.textContent = "This account doesn't have coach access.";
+          errorEl.classList.add("visible");
+        }
+        const btn = document.getElementById("login-btn");
+        if (btn) { btn.disabled = false; btn.textContent = "Sign in"; }
+      }
+    } catch (err) {
+      console.error(err);
+      await signOut(auth);
+      if (errorEl) {
+        errorEl.textContent = "Couldn't verify account access. Please try again.";
+        errorEl.classList.add("visible");
+      }
+    }
+  }
+
+  // If already logged in, verify role before going to dashboard
   onAuthStateChanged(auth, (user) => {
-    if (user) window.location.href = "admin-dashboard.html";
+    if (user) verifyCoachAccess(user, document.getElementById("error-msg"));
   });
 
   window.handleLogin = async function () {
