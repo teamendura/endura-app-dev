@@ -56,6 +56,7 @@ async function checkAndRouteUser(user) {
   if (data.stripeAccess === true || data.role === "admin") {
     window._currentUser = user;
     window._userRole = data.role || "user";
+    window._enabledTiles = data.enabledTiles || null; // null = show everything (no coach restrictions set)
     document.getElementById("loginScreen").style.display = "none";
     document.getElementById("paymentGate").classList.remove("open");
     document.getElementById("appShell").style.display    = "flex";
@@ -1140,6 +1141,13 @@ function arcRingSVG(val, goal) {
   return '<svg class="ring-svg" viewBox="0 0 56 56"><circle class="ring-track" cx="' + cx + '" cy="' + cy + '" r="' + r + '"/><circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="none" stroke="var(--gold)" stroke-width="5" stroke-linecap="round" stroke-dasharray="' + circ + '" stroke-dashoffset="' + off + '" style="transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset .7s;"/></svg>';
 }
 
+// Returns true if a tile should be shown. If a coach hasn't configured
+// enabledTiles for this user, everything is shown by default.
+function isTileEnabled(tileId) {
+  if (!window._enabledTiles) return true;
+  return window._enabledTiles[tileId] !== false;
+}
+
 function renderRings() {
   var h = todayHabits();
   var prog = activeProgram();
@@ -1148,6 +1156,7 @@ function renderRings() {
   var html = "";
 
   // Steps
+  if (isTileEnabled("steps")) {
   var steps = h.steps || 0;
   var stLabel = steps >= 1000 ? (Math.round(steps/100)/10) + "k" : steps;
   var stGoalLabel = S.stepsGoal >= 1000 ? (Math.round(S.stepsGoal/100)/10) + "k" : S.stepsGoal;
@@ -1155,25 +1164,31 @@ function renderRings() {
   html += '<div class="ring-wrap">' + arcRingSVG(steps, S.stepsGoal) + '<div class="ring-center"><span class="ring-val">' + stLabel + '</span><span class="ring-unit">steps</span></div></div>';
   html += '<div class="ring-name">Steps</div>';
   html += '<div class="ring-cadence">' + stGoalLabel + '/day</div></div>';
+  }
 
   // Meditation
+  if (isTileEnabled("meditation")) {
   var med = h.meditation || 0;
   html += '<div class="ring-card' + (med >= S.meditationGoal ? " ring-done" : "") + '" onclick="openHabitModal(\'meditation\')">';
   html += '<div class="ring-wrap">' + arcRingSVG(med, S.meditationGoal) + '<div class="ring-center"><span class="ring-val">' + med + '</span><span class="ring-unit">min</span></div></div>';
   html += '<div class="ring-name">Meditate</div>';
   html += '<div class="ring-cadence">' + S.meditationGoal + 'min/day</div></div>';
+  }
 
   // Workout week ring (3 segments)
+  if (isTileEnabled("workout")) {
   var wCount = Math.min(workoutsThisCalendarWeek(), 3);
   html += '<div class="ring-card no-tap' + (wCount >= 3 ? " ring-done" : "") + '">';
   html += '<div class="ring-wrap">' + segmentRingSVG(wCount, 3) + '<div class="ring-center"><span class="ring-val">' + wCount + '</span><span class="ring-unit">/ 3</span></div></div>';
   html += '<div class="ring-name">Lifts</div>';
   html += '<div class="ring-cadence">3x/week</div></div>';
+  }
 
   // Custom habit rings
   var habits = (prog && prog.customHabits) ? prog.customHabits : [];
   habits.forEach(function(habit) {
     if (!habit || !habit.id || habit.type !== "weekly") return;
+    if (!isTileEnabled(habit.id)) return;
     var count = customHabitWeekCount(habit.id);
     var goal = habit.weeklyGoal || 3;
     var done = count >= goal;
