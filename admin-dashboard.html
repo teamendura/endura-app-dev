@@ -371,16 +371,16 @@
   };
   // ──────────────────────────────────────────────────────────────────────────
 
-  // All available tiles — add/remove from this list to match your app
+  // Tiles must match the ring/habit ids used in index.html exactly (case-sensitive).
+  // Steps, Meditation, and Workout are built-in rings; the rest are per-program custom habits.
   const ALL_TILES = [
-    { id: "steps",       label: "Steps",        icon: "👣" },
-    { id: "sauna",       label: "Sauna",         icon: "🧖" },
-    { id: "coldPlunge",  label: "Cold plunge",   icon: "🧊" },
-    { id: "meditation",  label: "Meditation",    icon: "🧘" },
-    { id: "sleep",       label: "Sleep",         icon: "😴" },
-    { id: "nutrition",   label: "Nutrition",     icon: "🥗" },
-    { id: "workout",     label: "Workout",       icon: "🏋️" },
-    { id: "hrv",         label: "HRV",           icon: "💓" },
+    { id: "steps",      label: "Steps",       icon: "\ud83d\udc63" },
+    { id: "meditation", label: "Meditation",  icon: "\ud83e\uddd8" },
+    { id: "workout",    label: "Workout",     icon: "\ud83c\udfcb\ufe0f" },
+    { id: "sauna",      label: "Sauna",       icon: "\ud83e\uddd6" },
+    { id: "coldplunge", label: "Cold plunge", icon: "\ud83e\uddca" },
+    { id: "yoga",       label: "Yoga",        icon: "\ud83e\uddd8" },
+    { id: "cycling",    label: "Cycling",     icon: "\ud83d\udeb4" },
   ];
 
   const app = initializeApp(firebaseConfig);
@@ -389,9 +389,24 @@
 
   let currentCoachUid = null;
 
-  // Guard: redirect to login if not authenticated
-  onAuthStateChanged(auth, (user) => {
+  // Guard: redirect to login if not authenticated, or if authenticated but not a coach/admin
+  const ALLOWED_ROLES = ["coach", "admin"];
+  onAuthStateChanged(auth, async (user) => {
     if (!user) {
+      window.location.href = "admin.html";
+      return;
+    }
+    try {
+      const roleDoc = await getDoc(doc(db, "users", user.uid));
+      const roleData = roleDoc.exists() ? roleDoc.data() : {};
+      if (!ALLOWED_ROLES.includes(roleData.role)) {
+        await signOut(auth);
+        window.location.href = "admin.html";
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+      await signOut(auth);
       window.location.href = "admin.html";
       return;
     }
@@ -488,8 +503,15 @@
     });
 
     try {
+      // 1. Update the coach's own roster (for display in this dashboard)
       const coachRef = doc(db, "coachSettings", currentCoachUid);
       await updateDoc(coachRef, { [`athletes.${uid}.tiles`]: tiles });
+
+      // 2. Mirror the setting onto the athlete's own user doc — this is what
+      //    the live app (index.html) actually reads to decide what to show.
+      const userRef = doc(db, "users", uid);
+      await setDoc(userRef, { enabledTiles: tiles }, { merge: true });
+
       const statusEl = document.getElementById(`saved-${uid}`);
       statusEl.classList.add("visible");
       setTimeout(() => statusEl.classList.remove("visible"), 2000);
