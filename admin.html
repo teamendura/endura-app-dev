@@ -104,6 +104,18 @@
 
     input::placeholder { color: #3a5240; }
 
+    .pw-wrap { position: relative; }
+    .pw-wrap input[type="password"],
+    .pw-wrap input[type="text"] { padding-right: 44px; }
+    .pw-toggle {
+      position: absolute; right: 10px; top: 0; bottom: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; padding: 6px; cursor: pointer;
+      color: #6b8f72; opacity: 0.7;
+    }
+    .pw-toggle:hover { opacity: 1; }
+    .pw-toggle svg { width: 18px; height: 18px; display: block; }
+
     .btn {
       width: 100%;
       background: #4caf72;
@@ -173,7 +185,12 @@
   <input type="email" id="email" placeholder="coach@endura.com" autocomplete="email" />
 
   <label for="password">Password</label>
-  <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+  <div class="pw-wrap">
+    <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+    <button type="button" class="pw-toggle" onclick="toggleAdminPasswordVisibility()" aria-label="Show password">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+    </button>
+  </div>
 
   <button class="btn" id="login-btn" onclick="handleLogin()">Sign in</button>
 </div>
@@ -233,6 +250,18 @@
   onAuthStateChanged(auth, (user) => {
     if (user) verifyCoachAccess(user, document.getElementById("error-msg"));
   });
+
+  const EYE_ICON_SHOW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+  const EYE_ICON_HIDE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+
+  window.toggleAdminPasswordVisibility = function() {
+    const input = document.getElementById("password");
+    const btn = document.querySelector(".pw-toggle");
+    const showing = input.type === "text";
+    input.type = showing ? "password" : "text";
+    btn.innerHTML = showing ? EYE_ICON_SHOW : EYE_ICON_HIDE;
+    btn.setAttribute("aria-label", showing ? "Show password" : "Hide password");
+  };
 
   window.handleLogin = async function () {
     const email = document.getElementById("email").value.trim();
