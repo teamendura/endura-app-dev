@@ -17,7 +17,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot }
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, runTransaction }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ── 🔧 FIREBASE CONFIG ──────────────────────────────────────
@@ -38,7 +38,7 @@ const db   = getFirestore(app);
 // Expose to global scope so non-module functions can reach them
 window._enduraAuth = auth;
 window._enduraDb   = db;
-window._fbModules  = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, onSnapshot };
+window._fbModules  = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, onSnapshot, runTransaction };
 
 // ── Core function: check user access and route accordingly ──
 async function checkAndRouteUser(user) {
@@ -523,6 +523,16 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
     <!-- Append ?prefilled_email= to pre-fill the user's email -->
     <button class="paygate-btn" id="stripeBtn" onclick="goToStripe()">Subscribe with Stripe</button>
     <p style="font-size:11px;color:var(--muted);margin:0 0 10px;line-height:1.5;"><strong>$20/month.</strong> Auto-renews monthly until canceled. Cancel anytime in Settings. See <a href="#" data-legal="terms" style="color:var(--gold);">Terms of Service</a>.</p>
+
+    <button type="button" class="paygate-logout" style="margin-bottom:0;" onclick="toggleAccessCodeField()" id="accessCodeToggleBtn">Have a free access code?</button>
+    <div id="accessCodeWrap" style="display:none;margin-top:12px;text-align:left;">
+      <div class="auth-field" style="margin-bottom:8px;">
+        <input class="auth-input" id="accessCodeInput" type="text" placeholder="e.g. AB3D-9FGH" autocapitalize="characters" style="text-align:center;letter-spacing:0.05em;text-transform:uppercase;">
+      </div>
+      <button class="auth-btn" id="redeemCodeBtn" onclick="redeemAccessCode()">Redeem code</button>
+      <div class="auth-err" id="accessCodeErr"></div>
+    </div>
+
     <button class="paygate-logout" onclick="doSignOut()">Sign out</button>
     <div class="auth-err" id="payErr"></div>
   </div>
@@ -924,6 +934,78 @@ function goToStripe() {
   window.open(stripeLink, "_blank");
   document.getElementById("payErr").textContent =
     "After payment, return to this app and it will unlock automatically.";
+}
+
+function toggleAccessCodeField() {
+  var wrap = document.getElementById("accessCodeWrap");
+  var isOpen = wrap.style.display !== "none";
+  wrap.style.display = isOpen ? "none" : "block";
+  document.getElementById("accessCodeToggleBtn").textContent = isOpen ? "Have a free access code?" : "Enter your code below";
+  if (!isOpen) document.getElementById("accessCodeInput").focus();
+}
+
+async function redeemAccessCode() {
+  var input = document.getElementById("accessCodeInput");
+  var errEl = document.getElementById("accessCodeErr");
+  var btn   = document.getElementById("redeemCodeBtn");
+  var raw   = input.value.trim().toUpperCase();
+  errEl.classList.remove("visible");
+  errEl.textContent = "";
+
+  if (!raw) {
+    errEl.textContent = "Please enter a code.";
+    errEl.classList.add("visible");
+    return;
+  }
+  var user = window._currentUser;
+  if (!user) {
+    errEl.textContent = "Please sign in first.";
+    errEl.classList.add("visible");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="auth-spinner"></span>Checking…';
+
+  var db = window._enduraDb;
+  var F  = window._fbModules;
+
+  try {
+    await F.runTransaction(db, async function(tx) {
+      var codeRef = F.doc(db, "accessCodes", raw);
+      var snap = await tx.get(codeRef);
+      if (!snap.exists()) throw new Error("not-found");
+      var data = snap.data();
+      if (data.used) throw new Error("used");
+      tx.update(codeRef, {
+        used: true,
+        redeemedBy: user.uid,
+        redeemedByEmail: user.email || null,
+        redeemedAt: new Date().toISOString()
+      });
+      var userRef = F.doc(db, "users", user.uid);
+      tx.set(userRef, { stripeAccess: true, accessType: "legacy_code", accessCode: raw }, { merge: true });
+    });
+
+    errEl.style.color = "#4caf72";
+    errEl.textContent = "Code accepted! Loading your account…";
+    errEl.classList.add("visible");
+    window._userRole = "user";
+    await checkAndRouteUser(user);
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = "Redeem code";
+    errEl.style.color = "";
+    if (err.message === "not-found") {
+      errEl.textContent = "That code isn't valid. Please check it and try again.";
+    } else if (err.message === "used") {
+      errEl.textContent = "That code has already been used.";
+    } else {
+      errEl.textContent = "Something went wrong. Please try again.";
+      console.error(err);
+    }
+    errEl.classList.add("visible");
+  }
 }
 
 // ================================================================

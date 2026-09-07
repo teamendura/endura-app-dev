@@ -294,6 +294,44 @@
 
     .loading { text-align: center; padding: 2rem; color: #4a6e52; font-size: 14px; }
 
+    /* ── Access codes ── */
+    .code-card {
+      background: #162110;
+      border: 1px solid #2a3d22;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .code-main { min-width: 0; }
+    .code-value {
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      font-size: 15px;
+      font-weight: 600;
+      color: #e8f5ec;
+      letter-spacing: 0.03em;
+    }
+    .code-note { font-size: 12px; color: #6b8f72; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .code-status {
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 20px;
+      padding: 4px 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .code-status.unused { color: #4caf72; background: #1e3328; border: 1px solid #2a3d22; }
+    .code-status.used { color: #6b8f72; background: #12190f; border: 1px solid #1e2a18; }
+    .code-copy-btn {
+      background: none; border: 1px solid #2a3d22; border-radius: 6px;
+      color: #9ab89f; font-size: 11px; padding: 4px 8px; cursor: pointer;
+      flex-shrink: 0; margin-left: 8px;
+    }
+    .code-copy-btn:hover { border-color: #4caf72; color: #4caf72; }
+
     .toast {
       position: fixed;
       bottom: 1.5rem;
@@ -352,6 +390,19 @@
 
   <div class="section-label">Your athletes</div>
   <div id="user-list"><div class="loading">Loading athletes…</div></div>
+
+  <div class="section-label" style="margin-top:3rem;">Free access codes</div>
+  <p style="font-size:13px;color:#9ab89f;margin:-0.5rem 0 1.25rem;">Generate a one-time code for someone who should get free access instead of paying — e.g. a legacy user. Each code works once, for one person.</p>
+
+  <div class="add-user-form">
+    <div class="form-group">
+      <label for="new-code-note">Person's name (for your reference)</label>
+      <input type="text" id="new-code-note" placeholder="e.g. Anna Smith — legacy user" />
+    </div>
+    <button class="btn-add" id="gen-code-btn" onclick="generateAccessCode()">+ Generate code</button>
+  </div>
+
+  <div id="code-list"><div class="loading">Loading codes…</div></div>
 </main>
 
 <div class="toast" id="toast"></div>
@@ -359,7 +410,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, FieldPath, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, FieldPath, onSnapshot, collection, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   // ─── REPLACE THIS WITH YOUR FIREBASE CONFIG ───────────────────────────────
   const firebaseConfig = {
@@ -414,6 +465,7 @@
     currentCoachUid = user.uid;
     document.getElementById("coach-email").textContent = user.email;
     listenToAthletes();
+    listenToAccessCodes();
   });
 
   // ── Real-time listener on the coach's athlete list ──
@@ -587,6 +639,85 @@
   window.handleSignOut = async function() {
     await signOut(auth);
     window.location.href = "admin.html";
+  };
+
+  // ── Free access codes ──
+  // Codes avoid ambiguous characters (0/O, 1/I/L) so they're easy to read and type.
+  const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+  function makeCodeString() {
+    let out = "";
+    for (let i = 0; i < 8; i++) {
+      if (i === 4) out += "-";
+      out += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
+    }
+    return out;
+  }
+
+  window.generateAccessCode = async function() {
+    const noteInput = document.getElementById("new-code-note");
+    const note = noteInput.value.trim();
+    if (!note) { showToast("Please enter a name so you can track who this code is for."); return; }
+    const btn = document.getElementById("gen-code-btn");
+    btn.disabled = true;
+    const code = makeCodeString();
+    try {
+      // Extremely unlikely to collide, but check anyway before writing.
+      const existing = await getDoc(doc(db, "accessCodes", code));
+      if (existing.exists()) { showToast("Collision generating code — please try again."); btn.disabled = false; return; }
+      await setDoc(doc(db, "accessCodes", code), {
+        used: false,
+        note: note,
+        createdBy: currentCoachUid,
+        createdByEmail: auth.currentUser ? auth.currentUser.email : null,
+        createdAt: new Date().toISOString(),
+        redeemedBy: null,
+        redeemedByEmail: null,
+        redeemedAt: null
+      });
+      noteInput.value = "";
+      showToast(`Code ${code} generated for ${note}`);
+    } catch (err) {
+      showToast("Failed to generate code — please try again.");
+      console.error(err);
+    } finally {
+      btn.disabled = false;
+    }
+  };
+
+  function listenToAccessCodes() {
+    const q = query(collection(db, "accessCodes"), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snap) => {
+      const listEl = document.getElementById("code-list");
+      if (snap.empty) {
+        listEl.innerHTML = '<div class="empty-state"><p>No codes generated yet.</p></div>';
+        return;
+      }
+      let html = "";
+      snap.forEach((docSnap) => {
+        const d = docSnap.data();
+        const code = docSnap.id;
+        const usedLabel = d.used
+          ? `Used${d.redeemedByEmail ? " by " + escHtml(d.redeemedByEmail) : ""}`
+          : "Unused";
+        html += `<div class="code-card">
+          <div class="code-main">
+            <div class="code-value">${escHtml(code)}</div>
+            <div class="code-note">${escHtml(d.note || "")}</div>
+          </div>
+          <span class="code-status ${d.used ? "used" : "unused"}">${usedLabel}</span>
+          <button class="code-copy-btn" onclick="copyAccessCode('${code}')">Copy</button>
+        </div>`;
+      });
+      listEl.innerHTML = html;
+    }, (err) => {
+      console.error(err);
+      document.getElementById("code-list").innerHTML = '<div class="empty-state"><p>Couldn\'t load codes.</p></div>';
+    });
+  }
+
+  window.copyAccessCode = function(code) {
+    navigator.clipboard.writeText(code).then(() => showToast(`Copied ${code}`))
+      .catch(() => showToast("Couldn't copy — copy it manually: " + code));
   };
 
   // ── Helpers ──
