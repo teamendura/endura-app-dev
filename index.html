@@ -512,9 +512,9 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
   <div class="paygate-card">
     <div class="paygate-icon">🏋️</div>
     <div class="paygate-title">Start Your Free Trial</div>
-    <div class="paygate-sub">Get 30 days of full access to all workouts, habit tracking, and progress tools.</div>
+    <div class="paygate-sub">Get 14 days of full access to all workouts, habit tracking, and progress tools.</div>
     <div class="paygate-price">Free</div>
-    <div class="paygate-per">for 30 days, then $20 per month</div>
+    <div class="paygate-per">for 14 days, then $20 per month</div>
     <div class="paygate-features">
       <div class="paygate-feat"><div class="paygate-feat-dot"></div>3 structured workout programs</div>
       <div class="paygate-feat"><div class="paygate-feat-dot"></div>Habit & progress tracking</div>
@@ -525,7 +525,7 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
     <!-- Get it from: Stripe Dashboard → Payment Links → Create -->
     <!-- Append ?prefilled_email= to pre-fill the user's email -->
     <button class="paygate-btn" id="stripeBtn" onclick="goToStripe()">Start Free Trial</button>
-    <p style="font-size:11px;color:var(--muted);margin:0 0 10px;line-height:1.5;"><strong>30 days free, then $20/month.</strong> A card is required to start. Cancel before your trial ends and you won't be charged. Auto-renews monthly until canceled. Cancel anytime under Manage subscription in the Progress tab. See <a href="#" data-legal="terms" style="color:var(--gold);">Terms of Service</a>.</p>
+    <p style="font-size:11px;color:var(--muted);margin:0 0 10px;line-height:1.5;"><strong>14 days free, then $20/month.</strong> A card is required to start. Cancel before your trial ends and you won't be charged. Auto-renews monthly until canceled. Cancel anytime under Manage subscription in the Progress tab. See <a href="#" data-legal="terms" style="color:var(--gold);">Terms of Service</a>.</p>
 
     <button type="button" class="paygate-logout" style="margin-bottom:0;" onclick="toggleAccessCodeField()" id="accessCodeToggleBtn">Have a free access code?</button>
     <div id="accessCodeWrap" style="display:none;margin-top:12px;text-align:left;">
@@ -897,7 +897,7 @@ async function doSignUp() {
         legalAcceptance: {
           acceptedAt: new Date().toISOString(),
           disclaimerVersion: "June 25, 2026",
-          termsVersion: "June 25, 2026",
+          termsVersion: "October 6, 2026",
           privacyVersion: "June 25, 2026"
         }
       }
@@ -939,7 +939,7 @@ function goToStripe() {
   // ── 🔧 REPLACE with your Stripe Payment Link ────────────
   // Steps: Stripe Dashboard → Payment Links → + New Link
   //        Set price to $20/mo, copy the link, paste below
-  var stripeLink = "https://buy.stripe.com/eVq4gz8Rr6Qud8W6BxgEg04?prefilled_email=" + email;  // 30-day free trial link
+  var stripeLink = "https://buy.stripe.com/eVq4gz8Rr6Qud8W6BxgEg04?prefilled_email=" + email;  // 14-day free trial link
   // ─────────────────────────────────────────────────────────
   window.open(stripeLink, "_blank");
   document.getElementById("payErr").textContent =
@@ -1804,14 +1804,14 @@ var LEGAL_CONTENT = {
   },
   terms: {
     title: "Terms of Service",
-    html: `<p style='font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#7a6e5f;margin-bottom:14px;'>Last updated: June 25, 2026</p>
+    html: `<p style='font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#7a6e5f;margin-bottom:14px;'>Last updated: October 6, 2026</p>
 <p style='font-size:13px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>These Terms of Service ("Terms") form a binding agreement between you and DKL Companies LLC d/b/a The Endura Method ("Endura," "we," "our," or "us") and govern your access to and use of the Endura mobile application, the website endura-method.com, and all related content, programs, and services (the "Service"). By creating an account, subscribing, or using the Service, you agree to these Terms. If you do not agree, do not use the Service.</p>
 <h3 style='font-size:13px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>1. Eligibility</h3>
 <p style='font-size:13px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You must be at least 18 years old (or the age of majority where you live) to create an account and subscribe. By using the Service you represent that you meet this requirement and that the information you provide is accurate and current.</p>
 <h3 style='font-size:13px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>2. Your Account</h3>
 <p style='font-size:13px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You are responsible for keeping your login credentials confidential and for all activity under your account. Notify us promptly at team@endura-method.com of any unauthorized use. You may not share your account or transfer it to anyone else.</p>
 <h3 style='font-size:13px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>3. Subscriptions, Billing, and Automatic Renewal</h3>
-<p style='font-size:13px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Free trial.</strong> New subscribers receive a 30-day free trial. A valid payment method is required to start the trial. If you do not cancel before the trial ends, your payment method will be charged the subscription fee when the trial ends and each month after until you cancel.</p>
+<p style='font-size:13px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Free trial.</strong> New subscribers receive a 14-day free trial. A valid payment method is required to start the trial. If you do not cancel before the trial ends, your payment method will be charged the subscription fee when the trial ends and each month after until you cancel.</p>
 <p style='font-size:13px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Fees.</strong> After the free trial, access to the Service requires a paid subscription of $20 per month (or the then-current price shown at sign-up), plus any applicable taxes.</p>
 <p style='font-size:13px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Authorization.</strong> By subscribing, you authorize us and our third-party payment processor (Stripe) to charge your selected payment method the recurring fee.</p>
 <p style='font-size:13px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:6px;'>AUTOMATIC RENEWAL. YOUR SUBSCRIPTION AUTOMATICALLY RENEWS EACH MONTH, AND YOUR PAYMENT METHOD WILL BE CHARGED THE THEN-CURRENT FEE, UNTIL YOU CANCEL.</p>
