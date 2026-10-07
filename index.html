@@ -251,7 +251,7 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .habit-row::-webkit-scrollbar{display:none;}
 .ring-card{position:relative;flex-shrink:0;width:84px;background:var(--ink2);border:1px solid var(--border);border-radius:14px;padding:11px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:border-color .2s;}
 .ring-card:active{transform:scale(.97);}
-.ring-minus{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;border:1px solid var(--border);background:var(--ink);color:var(--cream);font-size:14px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.ring-minus{position:absolute;z-index:5;top:3px;right:3px;width:22px;height:22px;border-radius:50%;border:1px solid var(--border);background:var(--ink);color:var(--cream);font-size:14px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;}
 .ring-card.ring-done{border-color:var(--gold);}
 .ring-card.no-tap{cursor:default;}
 .ring-wrap{position:relative;width:56px;height:56px;}
@@ -1174,7 +1174,8 @@ function customHabitWeekCount(habitId) {
 }
 
 // Each tap adds one (multiple per day allowed)
-function toggleCustomHabit(habitId) {
+function toggleCustomHabit(habitId, ev) {
+  if (ev && ev.target && ev.target.closest && ev.target.closest(".ring-minus")) return;
   var k = todayKey();
   if (!S.customHabitLog[k]) S.customHabitLog[k] = {};
   S.customHabitLog[k][habitId] = habitEntryCount(S.customHabitLog[k][habitId]) + 1;
@@ -1337,7 +1338,7 @@ function renderRings() {
     var todayDone = customHabitDoneToday(habit.id);
     // Use textContent-safe center label instead of injecting emoji into innerHTML
     var centerLabel = todayDone ? "&#10003;" : String(count);
-    html += '<div class="ring-card' + (done ? " ring-done" : "") + '" onclick="toggleCustomHabit(\'' + habit.id + '\')">';
+    html += '<div class="ring-card' + (done ? " ring-done" : "") + '" onclick="toggleCustomHabit(\'' + habit.id + '\', event)">';
     if (todayDone) html += '<button class="ring-minus" aria-label="Remove one" onclick="undoCustomHabit(\'' + habit.id + '\', event)">&minus;</button>';
     html += '<div class="ring-wrap">' + segmentRingSVG(count, goal) + '<div class="ring-center"><span class="ring-val">' + centerLabel + '</span><span class="ring-unit">' + count + '/' + goal + '</span></div></div>';
     html += '<div class="ring-name">' + (habit.name || habit.id) + '</div>';
