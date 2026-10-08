@@ -122,32 +122,32 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .scroll-body::-webkit-scrollbar{display:none;}
 .app-header{padding:52px 22px 14px;flex-shrink:0;position:relative;}
 .app-header::after{content:'';position:absolute;bottom:0;left:22px;right:22px;height:1px;background:var(--border);}
-.logo-word{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;}
-.logo-sub{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:1px;}
+.logo-word{font-family:'Cormorant Garamond',serif;font-size:31px;font-weight:300;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;}
+.logo-sub{font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:1px;}
 .nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);border-top:1px solid var(--border);display:flex;padding-bottom:env(safe-area-inset-bottom,0);z-index:100;}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 0 11px;background:none;border:none;cursor:pointer;gap:3px;}
-.nav-icon{font-size:20px;line-height:1;}.nav-lbl{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.nav-icon{font-size:23px;line-height:1;}.nav-lbl{font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted);}
 .nav-btn.active .nav-lbl{color:var(--gold);}
-.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--gold);color:var(--ink);border-radius:30px;padding:9px 20px;font-size:15px;font-weight:500;letter-spacing:.1em;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;z-index:300;}
+.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--gold);color:var(--ink);border-radius:30px;padding:9px 20px;font-size:18px;font-weight:500;letter-spacing:.1em;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;z-index:300;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .modal-overlay{position:fixed;inset:0;background:rgba(200,188,170,.6);z-index:200;display:none;align-items:flex-end;}
 .modal-overlay.open{display:flex;}
 .modal-sheet{width:100%;background:var(--ink2);border:1px solid var(--border2);border-bottom:none;border-radius:20px 20px 0 0;padding:24px 22px 40px;max-height:88vh;overflow-y:auto;}
 .modal-sheet::-webkit-scrollbar{display:none;}
 .modal-handle{width:36px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 20px;}
-.modal-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--cream);margin-bottom:4px;}
-.modal-sub{font-size:14px;color:var(--muted);letter-spacing:.1em;margin-bottom:20px;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:27px;color:var(--cream);margin-bottom:4px;}
+.modal-sub{font-size:17px;color:var(--muted);letter-spacing:.1em;margin-bottom:20px;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 .au{animation:fadeUp .4s ease forwards;}
 .d1{animation-delay:.08s;opacity:0;}.d2{animation-delay:.16s;opacity:0;}.d3{animation-delay:.24s;opacity:0;}
 
 /* ── LOGIN / AUTH SCREEN ─────────────────────────────────── */
 .auth-screen{position:fixed;inset:0;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:32px 28px;z-index:500;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-.auth-logo{font-family:'Cormorant Garamond',serif;font-size:37px;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;margin-bottom:4px;}
-.auth-sub{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:24px;}
+.auth-logo{font-family:'Cormorant Garamond',serif;font-size:41px;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;margin-bottom:4px;}
+.auth-sub{font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:24px;}
 .auth-card{width:100%;max-width:360px;background:var(--ink2);border:1px solid var(--border2);border-radius:18px;padding:28px 24px;margin-bottom:32px;}
 .auth-tab-row{display:flex;border-bottom:1px solid var(--border);margin-bottom:24px;}
-.auth-tab{flex:1;padding:8px;text-align:center;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;}
+.auth-tab{flex:1;padding:8px;text-align:center;font-size:17px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;}
 .auth-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
 .auth-field{margin-bottom:14px;}
 .auth-pw-wrap{position:relative;}
@@ -155,58 +155,58 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .auth-pw-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;padding:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted, #8a8a8a);opacity:0.7;}
 .auth-pw-toggle:hover{opacity:1;}
 .auth-pw-toggle svg{width:18px;height:18px;display:block;}
-.auth-label{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
-.auth-input{width:100%;background:var(--ink3);border:1px solid var(--border2);border-radius:10px;padding:12px 14px;font-family:'Jost',sans-serif;font-size:16px;color:var(--cream);-webkit-appearance:none;outline:none;}
+.auth-label{font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.auth-input{width:100%;background:var(--ink3);border:1px solid var(--border2);border-radius:10px;padding:12px 14px;font-family:'Jost',sans-serif;font-size:19px;color:var(--cream);-webkit-appearance:none;outline:none;}
 .auth-input:focus{border-color:var(--gold);}
-.auth-btn{width:100%;margin-top:8px;background:var(--gold);border:none;border-radius:10px;padding:14px;font-family:'Jost',sans-serif;font-size:15px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);cursor:pointer;transition:opacity .2s;}
+.auth-btn{width:100%;margin-top:8px;background:var(--gold);border:none;border-radius:10px;padding:14px;font-family:'Jost',sans-serif;font-size:18px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);cursor:pointer;transition:opacity .2s;}
 .auth-btn:active{opacity:.8;}
-.auth-err{font-size:15px;color:#c0392b;margin-top:10px;text-align:center;min-height:18px;}
+.auth-err{font-size:18px;color:#c0392b;margin-top:10px;text-align:center;min-height:18px;}
 .auth-spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(245,239,227,.3);border-top-color:var(--ink);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
 /* ── LEGAL CHECKBOX ──────────────────────────────────── */
 .legal-check-wrap{display:flex;align-items:flex-start;gap:10px;margin-top:14px;margin-bottom:2px;}
 .legal-check-wrap input[type="checkbox"]{flex-shrink:0;margin-top:3px;width:16px;height:16px;accent-color:var(--gold);cursor:pointer;}
-.legal-check-label{font-size:14px;color:var(--muted);line-height:1.55;cursor:text;}
+.legal-check-label{font-size:17px;color:var(--muted);line-height:1.55;cursor:text;}
 .legal-check-label a{color:var(--gold);text-decoration:underline;cursor:pointer;}
-.legal-link-btn{background:none;border:none;padding:0;margin:0;color:var(--gold);text-decoration:underline;cursor:pointer;font-size:14px;font-family:inherit;line-height:inherit;display:inline;}
+.legal-link-btn{background:none;border:none;padding:0;margin:0;color:var(--gold);text-decoration:underline;cursor:pointer;font-size:17px;font-family:inherit;line-height:inherit;display:inline;}
 
 /* ── SETTINGS → LEGAL ───────────────────────────────── */
 .legal-section{margin:16px 22px 0;}
-.legal-section-title{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.legal-section-title{font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
 .legal-item{background:var(--ink2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px;cursor:pointer;}
-.legal-item-title{font-size:15px;color:var(--cream);}
-.legal-item-sub{font-size:13px;color:var(--muted);margin-top:2px;}
+.legal-item-title{font-size:18px;color:var(--cream);}
+.legal-item-sub{font-size:16px;color:var(--muted);margin-top:2px;}
 .legal-doc-modal{position:fixed;inset:0;background:var(--ink);z-index:600;display:none;flex-direction:column;}
 .legal-doc-modal.open{display:flex;}
 .legal-doc-header{padding:52px 22px 14px;flex-shrink:0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
-.legal-doc-back{background:none;border:none;color:var(--gold);font-size:15px;cursor:pointer;padding:0;}
-.legal-doc-title{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);}
+.legal-doc-back{background:none;border:none;color:var(--gold);font-size:18px;cursor:pointer;padding:0;}
+.legal-doc-title{font-family:'Cormorant Garamond',serif;font-size:25px;color:var(--cream);}
 .legal-doc-body{flex:1;overflow-y:auto;padding:20px 22px 60px;-webkit-overflow-scrolling:touch;}
 .legal-doc-body::-webkit-scrollbar{display:none;}
-.legal-doc-body h2{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--cream);margin:18px 0 6px;}
-.legal-doc-body p{font-size:15px;color:var(--cream);line-height:1.7;margin-bottom:10px;}
+.legal-doc-body h2{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);margin:18px 0 6px;}
+.legal-doc-body p{font-size:18px;color:var(--cream);line-height:1.7;margin-bottom:10px;}
 .legal-doc-body strong{font-weight:600;text-transform:uppercase;}
 
 /* ── PAYMENT GATE ────────────────────────────────────────── */
 .paygate-screen{position:fixed;inset:0;background:var(--ink);display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;z-index:490;}
 .paygate-screen.open{display:flex;}
 .paygate-card{width:100%;max-width:360px;background:var(--ink2);border:1px solid var(--border2);border-radius:18px;padding:28px 24px;text-align:center;}
-.paygate-icon{font-size:41px;margin-bottom:12px;}
-.paygate-title{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--cream);margin-bottom:8px;}
-.paygate-sub{font-size:15px;color:var(--muted);line-height:1.6;margin-bottom:24px;}
-.paygate-price{font-family:'Cormorant Garamond',serif;font-size:41px;color:var(--gold);margin-bottom:4px;}
-.paygate-per{font-size:14px;color:var(--muted);letter-spacing:.12em;margin-bottom:24px;}
+.paygate-icon{font-size:45px;margin-bottom:12px;}
+.paygate-title{font-family:'Cormorant Garamond',serif;font-size:29px;color:var(--cream);margin-bottom:8px;}
+.paygate-sub{font-size:18px;color:var(--muted);line-height:1.6;margin-bottom:24px;}
+.paygate-price{font-family:'Cormorant Garamond',serif;font-size:45px;color:var(--gold);margin-bottom:4px;}
+.paygate-per{font-size:17px;color:var(--muted);letter-spacing:.12em;margin-bottom:24px;}
 .paygate-features{text-align:left;margin-bottom:24px;}
-.paygate-feat{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:15px;color:var(--cream);}
+.paygate-feat{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:18px;color:var(--cream);}
 .paygate-feat-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;}
-.paygate-btn{width:100%;background:var(--gold);border:none;border-radius:10px;padding:14px;font-family:'Jost',sans-serif;font-size:15px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);cursor:pointer;margin-bottom:12px;}
-.paygate-logout{background:none;border:none;font-size:14px;color:var(--muted);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;padding:8px;}
+.paygate-btn{width:100%;background:var(--gold);border:none;border-radius:10px;padding:14px;font-family:'Jost',sans-serif;font-size:18px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);cursor:pointer;margin-bottom:12px;}
+.paygate-logout{background:none;border:none;font-size:17px;color:var(--muted);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;padding:8px;}
 
 /* ── USER PILL (top-right of header) ────────────────────── */
 .user-pill{position:absolute;top:54px;right:18px;display:flex;align-items:center;gap:8px;}
-.user-email-lbl{font-size:12px;color:var(--muted);letter-spacing:.08em;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.signout-btn{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--border);border-radius:20px;padding:3px 9px;cursor:pointer;}
+.user-email-lbl{font-size:15px;color:var(--muted);letter-spacing:.08em;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.signout-btn{font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--border);border-radius:20px;padding:3px 9px;cursor:pointer;}
 .signout-btn:active{background:var(--gold-dim);}
 
 
@@ -218,20 +218,20 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .header-logo-row{display:flex;align-items:center;gap:10px;}
 
 .home-greeting{padding:14px 22px 0;}
-.greeting-line{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;line-height:1.15;color:var(--cream);}
+.greeting-line{font-family:'Cormorant Garamond',serif;font-size:35px;font-weight:300;line-height:1.15;color:var(--cream);}
 .greeting-line em{font-style:italic;color:var(--gold);}
-.greeting-date{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+.greeting-date{font-size:16px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
 .program-bar-wrap{padding:14px 22px 0;flex-shrink:0;}
 .program-bar-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
-.program-bar-name{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
-.program-bar-week{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--cream);}
+.program-bar-name{font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.program-bar-week{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--cream);}
 .program-track{height:3px;background:var(--ink3);border-radius:2px;overflow:hidden;}
 .program-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .6s ease;}
 .week-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:10px 22px 0;}
 .wg-cell{background:var(--ink2);border:1px solid var(--border);border-radius:10px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;}
 .wg-cell.wg-current{border-color:var(--gold);background:rgba(139,111,71,0.08);}
 .wg-cell.wg-done{background:var(--gold);border-color:var(--gold);}
-.wg-num{font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1;color:var(--muted);}
+.wg-num{font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1;color:var(--muted);}
 .wg-cell.wg-current .wg-num{color:var(--gold);}
 .wg-cell.wg-done .wg-num{color:var(--ink);}
 .wg-dots{display:flex;gap:2px;}
@@ -242,29 +242,29 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .wg-cell.wg-done .wg-dot.lit{background:var(--ink);}
 .coach-card{margin:12px 22px 0;background:var(--ink2);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;position:relative;overflow:hidden;}
 .coach-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
-.coach-tag{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:7px;}
-.coach-quote{font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;line-height:1.55;color:var(--cream);}
-.coach-attr{font-size:13px;color:var(--muted);margin-top:7px;}
-.section-label{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);padding:14px 22px 8px;}
+.coach-tag{font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:7px;}
+.coach-quote{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;line-height:1.55;color:var(--cream);}
+.coach-attr{font-size:16px;color:var(--muted);margin-top:7px;}
+.section-label{font-size:16px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);padding:14px 22px 8px;}
 
 /* RINGS ROW — scrollable */
 .habit-row{display:flex;gap:10px;padding:0 22px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .habit-row::-webkit-scrollbar{display:none;}
-.ring-card{position:relative;flex-shrink:0;width:104px;background:var(--ink2);border:1px solid var(--border);border-radius:14px;padding:11px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:border-color .2s;}
+.ring-card{position:relative;flex-shrink:0;width:116px;background:var(--ink2);border:1px solid var(--border);border-radius:14px;padding:11px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:border-color .2s;}
 .ring-card:active{transform:scale(.97);}
-.ring-minus{position:absolute;z-index:5;top:3px;right:3px;width:22px;height:22px;border-radius:50%;border:1px solid var(--border);background:var(--ink);color:var(--cream);font-size:16px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.ring-minus{position:absolute;z-index:5;top:3px;right:3px;width:22px;height:22px;border-radius:50%;border:1px solid var(--border);background:var(--ink);color:var(--cream);font-size:19px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;}
 .ring-card.ring-done{border-color:var(--gold);}
 .ring-card.no-tap{cursor:default;}
-.ring-wrap{position:relative;width:68px;height:68px;}
-.ring-svg{width:68px;height:68px;}
+.ring-wrap{position:relative;width:76px;height:76px;}
+.ring-svg{width:76px;height:76px;}
 .ring-track{fill:none;stroke:rgba(139,111,71,0.15);stroke-width:5;}
 .ring-arc{fill:none;stroke:var(--gold);stroke-width:5;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset .7s cubic-bezier(.4,0,.2,1);}
 .ring-seg{fill:none;stroke-width:5;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke .4s;}
 .ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;line-height:1;}
-.ring-val{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold);}
-.ring-unit{font-size:11px;color:var(--cream);display:block;margin-top:1px;}
-.ring-name{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--cream);text-align:center;line-height:1.3;}
-.ring-cadence{font-size:11px;color:var(--gold);text-align:center;margin-top:2px;letter-spacing:.04em;line-height:1.3;}
+.ring-val{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold);}
+.ring-unit{font-size:14px;color:var(--cream);display:block;margin-top:1px;}
+.ring-name{font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--cream);text-align:center;line-height:1.3;}
+.ring-cadence{font-size:14px;color:var(--gold);text-align:center;margin-top:2px;letter-spacing:.04em;line-height:1.3;}
 
 /* WORKOUT CARDS */
 .workout-cards{display:flex;flex-direction:column;gap:10px;padding:0 22px;}
@@ -272,37 +272,37 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .w-card:active{transform:scale(.98);}
 .w-card.w-done{border-color:rgba(58,106,58,.45);}
 .w-card-top{padding:13px 15px 11px;display:flex;align-items:center;gap:12px;}
-.w-card-icon{width:38px;height:38px;border-radius:10px;background:var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.w-card-icon{width:38px;height:38px;border-radius:10px;background:var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:23px;flex-shrink:0;}
 .w-card-info{flex:1;}
-.w-card-tag{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
-.w-card-name{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--cream);line-height:1.2;}
-.w-card-meta{font-size:13px;color:var(--muted);margin-top:2px;}
-.w-card-arrow{font-size:17px;color:var(--muted);}
+.w-card-tag{font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
+.w-card-name{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);line-height:1.2;}
+.w-card-meta{font-size:16px;color:var(--muted);margin-top:2px;}
+.w-card-arrow{font-size:20px;color:var(--muted);}
 .w-card-bar{height:2px;background:var(--ink3);}
 .w-card-bar-fill{height:100%;background:var(--gold);transition:width .4s;}
 .w-card.w-done .w-card-bar-fill{background:var(--green);}
-.w-done-badge{display:none;font-size:13px;color:var(--green);padding:4px 15px 8px;letter-spacing:.08em;}
+.w-done-badge{display:none;font-size:16px;color:var(--green);padding:4px 15px 8px;letter-spacing:.08em;}
 .w-card.w-done .w-done-badge{display:block;}
 
 /* PROGRAM COMPLETE */
 .complete-screen{position:fixed;inset:0;background:var(--ink);z-index:150;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 26px;text-align:center;}
 .complete-screen.open{display:flex;}
-.complete-icon{font-size:56px;margin-bottom:16px;}
-.complete-title{font-family:'Cormorant Garamond',serif;font-size:35px;font-weight:300;color:var(--cream);margin-bottom:8px;line-height:1.2;}
+.complete-icon{font-size:62px;margin-bottom:16px;}
+.complete-title{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--cream);margin-bottom:8px;line-height:1.2;}
 .complete-title em{font-style:italic;color:var(--gold);}
-.complete-sub{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:22px;}
+.complete-sub{font-size:18px;color:var(--muted);line-height:1.7;margin-bottom:22px;}
 .complete-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-bottom:22px;}
 .cs-card{background:var(--ink2);border:1px solid var(--border);border-radius:12px;padding:12px;}
-.cs-val{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--gold);}
-.cs-lbl{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+.cs-val{font-family:'Cormorant Garamond',serif;font-size:33px;color:var(--gold);}
+.cs-lbl{font-size:15px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
 .new-program-card{width:100%;background:var(--ink2);border:1px solid var(--border2);border-radius:14px;padding:16px;cursor:pointer;transition:transform .15s;position:relative;overflow:hidden;margin-bottom:10px;text-align:left;}
 .new-program-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
 .new-program-card:active{transform:scale(.98);}
-.np-tag{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
-.np-name{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--cream);margin-bottom:3px;}
-.np-meta{font-size:14px;color:var(--muted);}
-.np-arrow{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:22px;color:var(--muted);}
-.dismiss-btn{font-size:14px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;background:none;border:none;cursor:pointer;padding:8px;margin-top:4px;}
+.np-tag{font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.np-name{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--cream);margin-bottom:3px;}
+.np-meta{font-size:17px;color:var(--muted);}
+.np-arrow{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:25px;color:var(--muted);}
+.dismiss-btn{font-size:17px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;background:none;border:none;cursor:pointer;padding:8px;margin-top:4px;}
 
 /* WELCOME VIDEO MODAL */
 .welcome-modal{position:fixed;inset:0;background:rgba(18,15,8,.95);z-index:250;display:none;flex-direction:column;align-items:center;justify-content:center;}
@@ -311,10 +311,10 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .welcome-modal-video{width:100%;aspect-ratio:16/9;background:#000;}
 .welcome-modal-video iframe{width:100%;height:100%;border:none;}
 .welcome-modal-body{padding:18px 22px 22px;background:var(--ink2);}
-.welcome-modal-tag{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
-.welcome-modal-title{font-family:'Cormorant Garamond',serif;font-size:23px;color:var(--cream);margin-bottom:5px;}
-.welcome-modal-sub{font-size:15px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
-.welcome-modal-close{width:100%;background:var(--gold);border:none;border-radius:10px;padding:12px;font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--ink);cursor:pointer;}
+.welcome-modal-tag{font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.welcome-modal-title{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--cream);margin-bottom:5px;}
+.welcome-modal-sub{font-size:18px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+.welcome-modal-close{width:100%;background:var(--gold);border:none;border-radius:10px;padding:12px;font-family:'Jost',sans-serif;font-size:17px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--ink);cursor:pointer;}
 
 /* WARM-UP */
 .warmup-card{margin:12px 22px 0;background:var(--ink2);border:1px solid var(--border2);border-radius:14px;overflow:hidden;position:relative;}
@@ -323,75 +323,75 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .wu-vid-box iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
 .wu-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;}
 .wu-body{padding:14px 16px 16px;}
-.wu-tag{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
-.wu-title{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);margin-bottom:4px;}
-.wu-sub{font-size:14px;color:var(--muted);margin-bottom:12px;}
+.wu-tag{font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.wu-title{font-family:'Cormorant Garamond',serif;font-size:25px;color:var(--cream);margin-bottom:4px;}
+.wu-sub{font-size:17px;color:var(--muted);margin-bottom:12px;}
 .timer-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.timer-display{font-family:'Cormorant Garamond',serif;font-size:48px;color:var(--gold);line-height:1;}
+.timer-display{font-family:'Cormorant Garamond',serif;font-size:53px;color:var(--gold);line-height:1;}
 .timer-display.running{color:var(--gold-light);}.timer-display.done{color:var(--green);}
 .timer-adj{display:flex;gap:6px;}
-.adj-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--border2);background:transparent;color:var(--cream);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.adj-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--border2);background:transparent;color:var(--cream);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .adj-btn:active{background:var(--gold-dim);}
-.timer-hint{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-top:4px;}
+.timer-hint{font-size:15px;color:var(--muted);letter-spacing:.1em;margin-top:4px;}
 .timer-track{height:3px;background:rgba(139,111,71,0.15);border-radius:2px;overflow:hidden;margin-bottom:12px;}
 .timer-fill{height:100%;background:var(--gold);transition:width .5s linear;}
 .wu-btns{display:flex;gap:8px;}
-.wu-btn{flex:1;border-radius:9px;padding:11px;font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border);background:var(--ink3);color:var(--muted);}
+.wu-btn{flex:1;border-radius:9px;padding:11px;font-family:'Jost',sans-serif;font-size:17px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border);background:var(--ink3);color:var(--muted);}
 .wu-btn.primary{background:var(--gold);border-color:var(--gold);color:var(--ink);}
 .wu-btn:active{transform:scale(.97);}
 .ex-lock{position:absolute;inset:0;background:rgba(245,239,227,.78);display:flex;align-items:center;justify-content:center;z-index:5;border-radius:14px;}
 .ex-lock-inner{text-align:center;}
-.ex-lock-icon{font-size:26px;margin-bottom:5px;}
-.ex-lock-txt{font-size:14px;color:var(--muted);letter-spacing:.1em;}
+.ex-lock-icon{font-size:29px;margin-bottom:5px;}
+.ex-lock-txt{font-size:17px;color:var(--muted);letter-spacing:.1em;}
 
 /* SESSION */
 .session-header{padding:52px 22px 12px;flex-shrink:0;position:relative;}
 .session-header::after{content:'';position:absolute;bottom:0;left:22px;right:22px;height:1px;background:var(--border);}
-.session-back{background:none;border:none;color:var(--muted);font-family:'Jost',sans-serif;font-size:14px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;padding:0;margin-bottom:7px;display:flex;align-items:center;gap:6px;}
-.session-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--cream);}
-.session-sub{font-size:13px;color:var(--muted);letter-spacing:.15em;margin-top:2px;}
+.session-back{background:none;border:none;color:var(--muted);font-family:'Jost',sans-serif;font-size:17px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;padding:0;margin-bottom:7px;display:flex;align-items:center;gap:6px;}
+.session-title{font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:300;color:var(--cream);}
+.session-sub{font-size:16px;color:var(--muted);letter-spacing:.15em;margin-top:2px;}
 .session-progress{padding:12px 22px 0;flex-shrink:0;}
 .prog-track{height:2px;background:var(--ink3);border-radius:1px;overflow:hidden;}
 .prog-fill{height:100%;background:var(--gold);transition:width .4s;}
-.prog-lbl{font-size:13px;color:var(--muted);margin-top:5px;display:flex;justify-content:space-between;}
+.prog-lbl{font-size:16px;color:var(--muted);margin-top:5px;display:flex;justify-content:space-between;}
 .ex-card{margin:12px 22px 0;background:var(--ink2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .3s,opacity .3s;}
 .ex-card.ex-done{opacity:.6;border-color:rgba(139,111,71,.2);}
 .vid-box{position:relative;width:100%;padding-bottom:56.25%;background:var(--ink3);}
 .vid-box iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
 .vid-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;}
-.vid-play{font-size:37px;color:var(--gold);opacity:.8;}
-.vid-hint{font-size:13px;color:var(--muted);letter-spacing:.1em;}
+.vid-play{font-size:41px;color:var(--gold);opacity:.8;}
+.vid-hint{font-size:16px;color:var(--muted);letter-spacing:.1em;}
 .ex-body{padding:12px 14px 14px;}
-.ex-num{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
-.ex-name{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--cream);margin-bottom:9px;}
+.ex-num{font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
+.ex-name{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--cream);margin-bottom:9px;}
 .ex-specs{display:flex;gap:16px;margin-bottom:9px;}
 .spec-item{text-align:center;}
-.spec-v{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--gold);line-height:1;}
-.spec-k{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
-.ex-note{background:rgba(139,111,71,.07);border-left:2px solid var(--gold);border-radius:0 6px 6px 0;padding:7px 10px;font-size:15px;color:var(--cream-dim);line-height:1.55;font-style:italic;margin-bottom:12px;}
-.sets-lbl{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+.spec-v{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);line-height:1;}
+.spec-k{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.ex-note{background:rgba(139,111,71,.07);border-left:2px solid var(--gold);border-radius:0 6px 6px 0;padding:7px 10px;font-size:18px;color:var(--cream-dim);line-height:1.55;font-style:italic;margin-bottom:12px;}
+.sets-lbl{font-size:15px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
 .sets-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;}
-.set-bub{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--muted);cursor:pointer;transition:all .15s;}
+.set-bub{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);cursor:pointer;transition:all .15s;}
 .set-bub.hit{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:500;}
 .set-bub:active{transform:scale(.88);}
 .set-detail{display:none;background:var(--ink3);border-radius:10px;padding:10px 12px;margin-top:4px;}
 .set-detail.open{display:block;}
 .set-detail-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.set-detail-label{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);width:42px;flex-shrink:0;}
-.set-detail-input{flex:1;background:var(--ink2);border:1px solid var(--border2);border-radius:7px;padding:7px 10px;font-family:'Jost',sans-serif;font-size:16px;color:var(--cream);text-align:center;-webkit-appearance:none;}
+.set-detail-label{font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);width:42px;flex-shrink:0;}
+.set-detail-input{flex:1;background:var(--ink2);border:1px solid var(--border2);border-radius:7px;padding:7px 10px;font-family:'Jost',sans-serif;font-size:19px;color:var(--cream);text-align:center;-webkit-appearance:none;}
 .set-detail-input:focus{outline:none;border-color:var(--gold);}
-.set-detail-unit{font-size:13px;color:var(--muted);width:26px;}
-.set-detail-save{width:100%;margin-top:10px;background:var(--gold);border:none;border-radius:7px;padding:9px;font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--ink);cursor:pointer;}
-.set-saved-info{font-size:13px;color:var(--gold);margin-top:3px;text-align:center;}
-.ex-btn{width:100%;background:var(--ink3);border:1px solid var(--border);border-radius:9px;padding:11px;font-family:'Jost',sans-serif;font-size:14px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .2s;}
+.set-detail-unit{font-size:16px;color:var(--muted);width:26px;}
+.set-detail-save{width:100%;margin-top:10px;background:var(--gold);border:none;border-radius:7px;padding:9px;font-family:'Jost',sans-serif;font-size:17px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--ink);cursor:pointer;}
+.set-saved-info{font-size:16px;color:var(--gold);margin-top:3px;text-align:center;}
+.ex-btn{width:100%;background:var(--ink3);border:1px solid var(--border);border-radius:9px;padding:11px;font-family:'Jost',sans-serif;font-size:17px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .2s;}
 .ex-btn.ready{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:500;}
 .abs-section{margin:12px 22px 0;background:rgba(139,111,71,.05);border:1px solid var(--border);border-radius:14px;padding:12px 14px;}
-.abs-title{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--cream);margin-bottom:10px;}
+.abs-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--cream);margin-bottom:10px;}
 .finish-banner{margin:16px 22px 0;background:linear-gradient(135deg,var(--gold),#8B6F47);border-radius:14px;padding:20px;text-align:center;display:none;}
 .finish-banner.show{display:block;}
-.finish-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--ink);margin-bottom:4px;}
-.finish-sub{font-size:15px;color:rgba(18,15,8,.6);margin-bottom:14px;}
-.finish-btn{background:var(--ink);color:var(--gold);border:none;border-radius:8px;padding:11px 22px;font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;}
+.finish-title{font-family:'Cormorant Garamond',serif;font-size:27px;color:var(--ink);margin-bottom:4px;}
+.finish-sub{font-size:18px;color:rgba(18,15,8,.6);margin-bottom:14px;}
+.finish-btn{background:var(--ink);color:var(--gold);border:none;border-radius:8px;padding:11px 22px;font-family:'Jost',sans-serif;font-size:17px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;}
 
 /* COACH TAB */
 .coach-screen-header{padding:52px 22px 14px;flex-shrink:0;position:relative;}
@@ -400,71 +400,71 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .welcome-vid-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light),transparent);z-index:1;}
 .welcome-thumb{width:100%;aspect-ratio:16/9;background:var(--ink3);display:flex;align-items:center;justify-content:center;position:relative;}
 .welcome-thumb-overlay{position:absolute;inset:0;background:rgba(58,46,30,.12);}
-.welcome-play{width:50px;height:50px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:21px;color:var(--ink);position:relative;z-index:1;box-shadow:0 4px 18px rgba(139,111,71,.35);}
+.welcome-play{width:50px;height:50px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--ink);position:relative;z-index:1;box-shadow:0 4px 18px rgba(139,111,71,.35);}
 .welcome-vid-body{padding:13px 16px 15px;}
-.welcome-vid-tag{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
-.welcome-vid-title{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--cream);margin-bottom:4px;}
-.welcome-vid-sub{font-size:14px;color:var(--muted);line-height:1.55;}
+.welcome-vid-tag{font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.welcome-vid-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--cream);margin-bottom:4px;}
+.welcome-vid-sub{font-size:17px;color:var(--muted);line-height:1.55;}
 .coach-weekly-card{margin:12px 22px 0;background:var(--ink2);border:1px solid var(--border);border-radius:14px;padding:15px 17px;position:relative;overflow:hidden;}
 .coach-weekly-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
 .coach-notes-card{margin:12px 22px 0;background:var(--ink2);border:1px solid var(--border);border-radius:14px;padding:15px 17px;}
-.coach-notes-title{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--cream);margin-bottom:10px;}
+.coach-notes-title{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);margin-bottom:10px;}
 .coach-note-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;}
 .coach-note-item:last-child{margin-bottom:0;}
 .coach-note-bullet{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px;}
-.coach-note-text{font-size:15px;color:var(--cream);line-height:1.6;}
+.coach-note-text{font-size:18px;color:var(--cream);line-height:1.6;}
 
 /* PROGRESS */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 22px 0;}
 .stat-card{background:var(--ink2);border:1px solid var(--border);border-radius:12px;padding:13px;}
-.stat-v{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold);line-height:1;}
-.stat-u{font-size:13px;color:var(--muted);}.stat-l{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:3px;}
+.stat-v{font-family:'Cormorant Garamond',serif;font-size:35px;color:var(--gold);line-height:1;}
+.stat-u{font-size:16px;color:var(--muted);}.stat-l{font-size:15px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:3px;}
 .chart-box{margin:12px 22px 0;background:var(--ink2);border:1px solid var(--border);border-radius:14px;padding:16px;}
-.chart-title{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.chart-title{font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
 .bar-chart{display:flex;align-items:flex-end;gap:5px;height:68px;}
 .bc{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
 .bbar{width:100%;border-radius:3px 3px 0 0;background:var(--ink3);min-height:4px;}
 .bbar.lit{background:var(--gold);}
-.bday{font-size:12px;color:var(--muted);}
+.bday{font-size:15px;color:var(--muted);}
 .trend-section{padding:12px 22px 0;}
-.trend-lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.trend-lbl{font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
 .trend-picker{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px;}
 .trend-picker::-webkit-scrollbar{display:none;}
-.trend-pill{flex-shrink:0;background:var(--ink2);border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:14px;color:var(--muted);cursor:pointer;white-space:nowrap;}
+.trend-pill{flex-shrink:0;background:var(--ink2);border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:17px;color:var(--muted);cursor:pointer;white-space:nowrap;}
 .trend-pill.active{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:500;}
 .trend-chart-box{background:var(--ink2);border:1px solid var(--border);border-radius:14px;padding:14px;}
-.trend-no-data{font-size:15px;color:var(--muted);text-align:center;padding:18px 0;}
+.trend-no-data{font-size:18px;color:var(--muted);text-align:center;padding:18px 0;}
 .trend-points{display:flex;align-items:flex-end;gap:4px;height:74px;margin-bottom:8px;}
 .tp-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
 .tp-bar{width:100%;border-radius:3px 3px 0 0;background:var(--gold);min-height:4px;}
-.tp-val{font-size:11px;color:var(--muted);white-space:nowrap;}
-.tp-date{font-size:11px;color:var(--muted);margin-top:1px;}
-.trend-best{font-size:14px;color:var(--cream);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
-.trend-best span{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:17px;}
+.tp-val{font-size:14px;color:var(--muted);white-space:nowrap;}
+.tp-date{font-size:14px;color:var(--muted);margin-top:1px;}
+.trend-best{font-size:17px;color:var(--cream);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+.trend-best span{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:20px;}
 .log-list{padding:12px 22px 0;}
-.log-lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.log-lbl{font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
 .log-item{background:var(--ink2);border:1px solid var(--border);border-radius:10px;padding:10px 13px;display:flex;align-items:center;gap:10px;margin-bottom:8px;}
 .log-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;}
-.log-info{flex:1;}.log-name{font-size:15px;color:var(--cream);}
-.log-date{font-size:13px;color:var(--muted);margin-top:2px;}
-.log-check{color:var(--gold);font-size:16px;}
+.log-info{flex:1;}.log-name{font-size:18px;color:var(--cream);}
+.log-date{font-size:16px;color:var(--muted);margin-top:2px;}
+.log-check{color:var(--gold);font-size:19px;}
 .habit-input-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-.habit-input-label{flex:1;font-size:15px;color:var(--cream);}
+.habit-input-label{flex:1;font-size:18px;color:var(--cream);}
 .habit-slider{flex:2;-webkit-appearance:none;height:3px;background:var(--ink3);border-radius:2px;outline:none;}
 .habit-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--gold);cursor:pointer;}
-.habit-val-display{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);min-width:52px;text-align:right;}
-.habit-done-btn{width:100%;margin-top:8px;background:var(--gold);border:none;border-radius:10px;padding:13px;font-family:'Jost',sans-serif;font-size:15px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--ink);cursor:pointer;}
+.habit-val-display{font-family:'Cormorant Garamond',serif;font-size:25px;color:var(--gold);min-width:52px;text-align:right;}
+.habit-done-btn{width:100%;margin-top:8px;background:var(--gold);border:none;border-radius:10px;padding:13px;font-family:'Jost',sans-serif;font-size:18px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--ink);cursor:pointer;}
 
 /* ── LEGAL POP-UP WINDOW ───────────────────────────────── */
 .legal-popup-overlay{position:fixed;inset:0;background:rgba(18,15,8,.72);z-index:9999;display:none;align-items:center;justify-content:center;padding:22px;}
 .legal-popup-overlay.open{display:flex;}
 .legal-popup-card{background:var(--ink2);border:1px solid var(--border2);border-radius:18px;box-shadow:0 18px 50px rgba(42,31,16,.24);padding:24px 22px 22px;max-width:420px;width:100%;max-height:82vh;overflow-y:auto;position:relative;-webkit-overflow-scrolling:touch;}
 .legal-popup-card::-webkit-scrollbar{display:none;}
-.legal-popup-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--gold);font-size:24px;cursor:pointer;line-height:1;padding:4px;}
-.legal-popup-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--cream);margin-bottom:10px;padding-right:30px;line-height:1.2;}
-.legal-popup-body{font-size:15px;color:var(--cream-dim);line-height:1.65;}
-.legal-popup-body .legal-meta{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
-.legal-popup-body h3{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--cream);margin:18px 0 6px;line-height:1.25;}
+.legal-popup-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--gold);font-size:27px;cursor:pointer;line-height:1;padding:4px;}
+.legal-popup-title{font-family:'Cormorant Garamond',serif;font-size:27px;color:var(--cream);margin-bottom:10px;padding-right:30px;line-height:1.2;}
+.legal-popup-body{font-size:18px;color:var(--cream-dim);line-height:1.65;}
+.legal-popup-body .legal-meta{font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+.legal-popup-body h3{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);margin:18px 0 6px;line-height:1.25;}
 .legal-popup-body p{margin:0 0 11px;}
 .legal-popup-body ul{margin:0 0 12px 18px;padding:0;}
 .legal-popup-body li{margin-bottom:8px;padding-left:2px;}
@@ -488,15 +488,15 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 .acct-user{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:default;}
 .acct-user .legal-item-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .theme-toggle{display:flex;gap:8px;}
-.theme-btn{flex:1;padding:14px 10px;border-radius:12px;border:1px solid var(--border);background:var(--ink2);color:var(--cream);font-family:inherit;font-size:16px;cursor:pointer;}
+.theme-btn{flex:1;padding:14px 10px;border-radius:12px;border:1px solid var(--border);background:var(--ink2);color:var(--cream);font-family:inherit;font-size:19px;cursor:pointer;}
 .theme-btn.active{border-color:var(--gold);background:var(--gold);color:var(--ink);font-weight:500;}
 
 .upcoming-card{margin:12px 22px 0;background:var(--ink2);border:1px dashed var(--border2);border-radius:14px;padding:15px 17px;}
-.upcoming-tag{display:inline-block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border2);border-radius:20px;padding:3px 9px;margin-bottom:8px;}
-.upcoming-name{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);margin-bottom:3px;}
-.upcoming-sub{font-size:15px;color:var(--muted);line-height:1.5;}
-.ex-equip{display:flex;gap:8px;align-items:baseline;margin-bottom:10px;font-size:15px;color:var(--cream);}
-.ex-equip-k{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.upcoming-tag{display:inline-block;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border2);border-radius:20px;padding:3px 9px;margin-bottom:8px;}
+.upcoming-name{font-family:'Cormorant Garamond',serif;font-size:25px;color:var(--cream);margin-bottom:3px;}
+.upcoming-sub{font-size:18px;color:var(--muted);line-height:1.5;}
+.ex-equip{display:flex;gap:8px;align-items:baseline;margin-bottom:10px;font-size:18px;color:var(--cream);}
+.ex-equip-k{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
 </style>
 </head>
 <body>
@@ -554,7 +554,7 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
     <!-- Get it from: Stripe Dashboard → Payment Links → Create -->
     <!-- Append ?prefilled_email= to pre-fill the user's email -->
     <button class="paygate-btn" id="stripeBtn" onclick="goToStripe()">Start Free Trial</button>
-    <p style="font-size:14px;color:var(--muted);margin:0 0 10px;line-height:1.5;"><strong>14 days free, then $20/month.</strong> A card is required to start. Cancel before your trial ends and you won't be charged. Auto-renews monthly until canceled. Cancel anytime under Manage subscription in the Progress tab. See <a href="#" data-legal="terms" style="color:var(--gold);">Terms of Service</a>.</p>
+    <p style="font-size:17px;color:var(--muted);margin:0 0 10px;line-height:1.5;"><strong>14 days free, then $20/month.</strong> A card is required to start. Cancel before your trial ends and you won't be charged. Auto-renews monthly until canceled. Cancel anytime under Manage subscription in the Progress tab. See <a href="#" data-legal="terms" style="color:var(--gold);">Terms of Service</a>.</p>
 
     <button type="button" class="paygate-logout" style="margin-bottom:0;" onclick="toggleAccessCodeField()" id="accessCodeToggleBtn">Have a free access code?</button>
     <div id="accessCodeWrap" style="display:none;margin-top:12px;text-align:left;">
@@ -1715,7 +1715,7 @@ function showCompletionScreen() {
     '<div class="cs-card"><div class="cs-val">' + (progLogs.length*3||0) + '</div><div class="cs-lbl">Lifts Done</div></div>';
   document.getElementById("newProgramSlot").innerHTML = next
     ? '<div class="new-program-card" onclick="loadNewProgram(\'' + next.id + '\')"><div class="np-tag">New Program Available</div><div class="np-name">' + next.name + '</div><div class="np-meta">' + next.subtitle + ' - ' + next.totalWeeks + ' weeks</div><div class="np-arrow">&#8250;</div></div>'
-    : '<div style="font-size:15px;color:var(--muted);text-align:center;padding:10px 0;">More programs coming soon.</div>';
+    : '<div style="font-size:18px;color:var(--muted);text-align:center;padding:10px 0;">More programs coming soon.</div>';
   document.getElementById("completeScreen").classList.add("open");
 }
 
@@ -1743,7 +1743,7 @@ function renderCoachTab() {
   var videoCard = wv ? '<div class="welcome-vid-card au" onclick="openWelcomeModal(false)"><div class="welcome-thumb"><div class="welcome-thumb-overlay"></div><div class="welcome-play">&#9654;</div></div><div class="welcome-vid-body"><div class="welcome-vid-tag">Welcome Video - ' + prog.name + '</div><div class="welcome-vid-title">' + wv.title + '</div><div class="welcome-vid-sub">' + wv.sub + '</div></div></div>' : "";
   var notes = prog.coachNotes && prog.coachNotes.length ? '<div class="coach-notes-card au d2"><div class="coach-notes-title">Block Notes</div>' + prog.coachNotes.map(function(n){ return '<div class="coach-note-item"><div class="coach-note-bullet"></div><div class="coach-note-text">' + n + '</div></div>'; }).join("") + "</div>" : "";
   document.getElementById("coachTabContent").innerHTML = videoCard +
-    "<div class=\"coach-weekly-card au d1\"><div class=\"coach-tag\">Message This Week - Week " + S.currentWeek + "</div><div class=\"coach-quote\" style=\"font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;line-height:1.55;color:var(--cream);\">&ldquo;" + msg.quote + "&rdquo;</div><div class=\"coach-attr\" style=\"font-size:13px;color:var(--muted);margin-top:8px;\">" + msg.attr + "</div></div>" + notes + renderUpcomingBlocks();
+    "<div class=\"coach-weekly-card au d1\"><div class=\"coach-tag\">Message This Week - Week " + S.currentWeek + "</div><div class=\"coach-quote\" style=\"font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;line-height:1.55;color:var(--cream);\">&ldquo;" + msg.quote + "&rdquo;</div><div class=\"coach-attr\" style=\"font-size:16px;color:var(--muted);margin-top:8px;\">" + msg.attr + "</div></div>" + notes + renderUpcomingBlocks();
 }
 
 // ── EQUIPMENT per exercise (fill in from Kim's list; blank = hidden) ──
@@ -1775,7 +1775,7 @@ function openWelcomeModal(isAutoPlay) {
   document.getElementById("welcomeModalSub").textContent = wv.sub;
   var videoEl = document.getElementById("welcomeModalVideo");
   if (!wv.videoId || wv.videoId.indexOf("YOUR_") === 0) {
-    videoEl.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--ink3);color:var(--muted);font-size:15px;text-align:center;padding:20px;">Add your welcome video ID to PROGRAMS[].welcomeVideo.videoId</div>';
+    videoEl.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--ink3);color:var(--muted);font-size:18px;text-align:center;padding:20px;">Add your welcome video ID to PROGRAMS[].welcomeVideo.videoId</div>';
   } else {
     videoEl.innerHTML = '<iframe src="https://www.youtube.com/embed/' + wv.videoId + '?autoplay=' + (isAutoPlay?1:0) + '&rel=0&modestbranding=1" allow="autoplay;fullscreen" allowfullscreen></iframe>';
   }
@@ -1808,9 +1808,9 @@ function openHabitModal(type) {
       '</div>' +
       '<div style="height:1px;background:var(--border);margin:8px 0 14px;"></div>' +
       '<div class="habit-input-row" style="margin-bottom:6px;">' +
-        '<div class="habit-input-label" style="font-size:14px;color:var(--muted);">Daily goal</div>' +
+        '<div class="habit-input-label" style="font-size:17px;color:var(--muted);">Daily goal</div>' +
         '<input type="range" class="habit-slider" id="goalSlider" min="5000" max="20000" step="1000" value="' + S.stepsGoal + '">' +
-        '<div class="habit-val-display" id="goalVal" style="font-size:17px;">' + S.stepsGoal.toLocaleString() + ' steps</div>' +
+        '<div class="habit-val-display" id="goalVal" style="font-size:20px;">' + S.stepsGoal.toLocaleString() + ' steps</div>' +
       '</div>' +
       '<button class="habit-done-btn" onclick="saveHabit()">Save</button>';
     document.getElementById("habSlider").oninput = function() { document.getElementById("habVal").textContent = Number(this.value).toLocaleString() + " steps"; };
@@ -1824,9 +1824,9 @@ function openHabitModal(type) {
       '</div>' +
       '<div style="height:1px;background:var(--border);margin:8px 0 14px;"></div>' +
       '<div class="habit-input-row" style="margin-bottom:6px;">' +
-        '<div class="habit-input-label" style="font-size:14px;color:var(--muted);">Daily goal</div>' +
+        '<div class="habit-input-label" style="font-size:17px;color:var(--muted);">Daily goal</div>' +
         '<input type="range" class="habit-slider" id="goalSlider" min="5" max="60" step="5" value="' + S.meditationGoal + '">' +
-        '<div class="habit-val-display" id="goalVal" style="font-size:17px;">' + S.meditationGoal + ' min</div>' +
+        '<div class="habit-val-display" id="goalVal" style="font-size:20px;">' + S.meditationGoal + ' min</div>' +
       '</div>' +
       '<button class="habit-done-btn" onclick="saveHabit()">Save</button>';
     document.getElementById("habSlider").oninput = function() { document.getElementById("habVal").textContent = this.value + " min"; };
@@ -1888,7 +1888,7 @@ function renderProgress() {
     renderTrendChart(trendData[activeTrendEx]);
   }
   var logEl = document.getElementById("fullLog");
-  if (!S.log.length) { logEl.innerHTML = '<div style="color:var(--muted);font-size:15px;">No workouts yet. Get after it.</div>'; return; }
+  if (!S.log.length) { logEl.innerHTML = '<div style="color:var(--muted);font-size:18px;">No workouts yet. Get after it.</div>'; return; }
   logEl.innerHTML = S.log.slice().reverse().map(function(l) {
     var dateStr = new Date(l.date + "T12:00:00").toLocaleDateString("en-US", {weekday:"short", month:"short", day:"numeric"});
     return '<div class="log-item">' +
@@ -1912,99 +1912,99 @@ function selectTrend(exId) { activeTrendEx = exId; renderProgress(); }
 var LEGAL_CONTENT = {
   disclaimer: {
     title: "Health, Fitness & Liability Disclaimer",
-    html: `<p style='font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#7a6e5f;margin-bottom:14px;'>Last updated: June 25, 2026</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>This Disclaimer governs your use of the Endura mobile application (the "App"), the website endura-method.com, and all related fitness and educational content, including videos, programs, and the Foundation, Strength, Hypertrophy, and Recovery training blocks (collectively, the "Content"), made available by DKL Companies LLC d/b/a The Endura Method ("Endura," "we," "our," or "us"). Please read it carefully. By creating an account, purchasing a subscription, or otherwise accessing or using the Content, you agree to the terms below.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>1. Not Medical Advice; No Physical Therapy or Treatment</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>The Content is provided for general fitness, informational, and educational purposes only. It is not medical advice and is not a substitute for the advice, diagnosis, or treatment of your physician or other qualified health provider. Although Endura's founder holds a Doctor of Physical Therapy degree and is a licensed physical therapist, she is not acting in that capacity through the Content, and no physical therapist–patient or other provider–patient relationship is created by your use of the Content. We do not diagnose, treat, cure, rehabilitate, or otherwise provide physical therapy or any other healthcare service through the Content, and the Content is not tailored or individualized to you, your condition, or your medical history.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>2. Consult Your Physician First</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Exercise involves inherent risks. Before beginning any program or using any of the Content, consult your physician or other qualified healthcare provider — particularly if you are pregnant or nursing, are elderly, or have or suspect any injury, illness, medical condition, or symptom, or take any medication. Stop exercising immediately and seek medical attention if you experience pain, dizziness, faintness, shortness of breath, chest discomfort, or any other symptom that concerns you. Never disregard or delay seeking professional medical advice because of anything you have accessed through the Content.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>3. Assumption of Risk</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You understand that physical exercise can be strenuous and can result in injury, including serious injury, and in rare circumstances death. You acknowledge that you are voluntarily participating of your own free will, and <strong>YOU KNOWINGLY AND VOLUNTARILY ASSUME ALL RISKS</strong> associated with your use of the Content, whether known or unknown, including risks arising from your own physical condition and from performing exercises without in-person supervision or assessment.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>4. Release and Limitation of Liability</h3>
-<p style='font-size:15px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:8px;'>PLEASE READ THIS SECTION CAREFULLY. IT LIMITS YOUR LEGAL RIGHTS, INCLUDING YOUR RIGHT TO RECOVER FOR INJURIES CAUSED BY OUR ORDINARY NEGLIGENCE.</p>
-<p style='font-size:15px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:8px;'>TO THE FULLEST EXTENT PERMITTED BY LAW, YOU RELEASE, WAIVE, AND FOREVER DISCHARGE DKL COMPANIES LLC, THE ENDURA METHOD, AND THEIR RESPECTIVE OWNERS, OFFICERS, MEMBERS, EMPLOYEES, CONTRACTORS, AND AGENTS (THE "RELEASED PARTIES") FROM ANY AND ALL CLAIMS, DEMANDS, CAUSES OF ACTION, OR LIABILITY FOR ANY INJURY, LOSS, OR DAMAGE OF ANY KIND ARISING OUT OF OR RELATING TO YOUR USE OF THE CONTENT, INCLUDING ANY SUCH CLAIM CAUSED IN WHOLE OR IN PART BY THE ORDINARY NEGLIGENCE OF THE RELEASED PARTIES.</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>This release does not apply to gross negligence, willful or intentional misconduct, or any liability that cannot be released or limited under applicable law. To the maximum extent permitted by law, the Released Parties will not be liable for any indirect, incidental, consequential, or punitive damages, and our total liability for any claim relating to the Content will not exceed the amount you paid to us in the twelve (12) months preceding the event giving rise to the claim.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>5. No Guarantee of Results</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Individual results vary and depend on many factors outside our control. We make no representation, warranty, or guarantee of any specific fitness, health, weight, body-composition, or performance outcome. The Content is provided "as is" and "as available," without warranties of any kind, whether express or implied, to the fullest extent permitted by law.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>6. Dispute Resolution; Binding Arbitration; Class Action Waiver</h3>
-<p style='font-size:15px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:8px;'>PLEASE READ THIS SECTION CAREFULLY. IT AFFECTS HOW DISPUTES ARE RESOLVED AND REQUIRES THAT THEY BE BROUGHT INDIVIDUALLY RATHER THAN AS PART OF A CLASS ACTION.</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:8px;'>Most concerns can be resolved quickly. Before initiating any formal proceeding, you agree to first contact us at team@endura-method.com and attempt to resolve the matter informally. Any dispute, claim, or controversy arising out of or relating to the Content or this Disclaimer that is not resolved informally will be resolved exclusively through binding individual arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules then in effect, rather than in court. The Federal Arbitration Act governs the interpretation and enforcement of this provision. The arbitration will be conducted in the State of Texas or, at your election, in your home county, or by telephone or video where permitted by the AAA rules. Either party may instead bring an individual claim in small claims court if it qualifies.</p>
-<p style='font-size:15px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:8px;'>YOU AND ENDURA AGREE THAT EACH MAY BRING CLAIMS AGAINST THE OTHER ONLY IN AN INDIVIDUAL CAPACITY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS, COLLECTIVE, CONSOLIDATED, OR REPRESENTATIVE PROCEEDING.</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Your right to opt out: You may opt out of this arbitration and class-action-waiver provision by emailing team@endura-method.com within thirty (30) days of first accepting this Disclaimer, stating your name and your intent to opt out. Opting out will not affect any other provision of this Disclaimer.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>7. Governing Law</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>This Disclaimer and any dispute arising out of or relating to it or the Content are governed by the laws of the State of Texas, without regard to its conflict-of-laws principles, except that the Federal Arbitration Act governs the arbitration provision above.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>8. Acceptance</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>By creating an account, purchasing a subscription, checking the box presented at sign-up, or otherwise accessing or using the Content, you acknowledge that you have read and understood this Disclaimer and agree to be bound by it, including the Assumption of Risk, Release and Limitation of Liability, and Binding Arbitration and Class Action Waiver provisions above.</p>`
+    html: `<p style='font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:#7a6e5f;margin-bottom:14px;'>Last updated: June 25, 2026</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>This Disclaimer governs your use of the Endura mobile application (the "App"), the website endura-method.com, and all related fitness and educational content, including videos, programs, and the Foundation, Strength, Hypertrophy, and Recovery training blocks (collectively, the "Content"), made available by DKL Companies LLC d/b/a The Endura Method ("Endura," "we," "our," or "us"). Please read it carefully. By creating an account, purchasing a subscription, or otherwise accessing or using the Content, you agree to the terms below.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>1. Not Medical Advice; No Physical Therapy or Treatment</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>The Content is provided for general fitness, informational, and educational purposes only. It is not medical advice and is not a substitute for the advice, diagnosis, or treatment of your physician or other qualified health provider. Although Endura's founder holds a Doctor of Physical Therapy degree and is a licensed physical therapist, she is not acting in that capacity through the Content, and no physical therapist–patient or other provider–patient relationship is created by your use of the Content. We do not diagnose, treat, cure, rehabilitate, or otherwise provide physical therapy or any other healthcare service through the Content, and the Content is not tailored or individualized to you, your condition, or your medical history.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>2. Consult Your Physician First</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Exercise involves inherent risks. Before beginning any program or using any of the Content, consult your physician or other qualified healthcare provider — particularly if you are pregnant or nursing, are elderly, or have or suspect any injury, illness, medical condition, or symptom, or take any medication. Stop exercising immediately and seek medical attention if you experience pain, dizziness, faintness, shortness of breath, chest discomfort, or any other symptom that concerns you. Never disregard or delay seeking professional medical advice because of anything you have accessed through the Content.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>3. Assumption of Risk</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You understand that physical exercise can be strenuous and can result in injury, including serious injury, and in rare circumstances death. You acknowledge that you are voluntarily participating of your own free will, and <strong>YOU KNOWINGLY AND VOLUNTARILY ASSUME ALL RISKS</strong> associated with your use of the Content, whether known or unknown, including risks arising from your own physical condition and from performing exercises without in-person supervision or assessment.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>4. Release and Limitation of Liability</h3>
+<p style='font-size:18px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:8px;'>PLEASE READ THIS SECTION CAREFULLY. IT LIMITS YOUR LEGAL RIGHTS, INCLUDING YOUR RIGHT TO RECOVER FOR INJURIES CAUSED BY OUR ORDINARY NEGLIGENCE.</p>
+<p style='font-size:18px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:8px;'>TO THE FULLEST EXTENT PERMITTED BY LAW, YOU RELEASE, WAIVE, AND FOREVER DISCHARGE DKL COMPANIES LLC, THE ENDURA METHOD, AND THEIR RESPECTIVE OWNERS, OFFICERS, MEMBERS, EMPLOYEES, CONTRACTORS, AND AGENTS (THE "RELEASED PARTIES") FROM ANY AND ALL CLAIMS, DEMANDS, CAUSES OF ACTION, OR LIABILITY FOR ANY INJURY, LOSS, OR DAMAGE OF ANY KIND ARISING OUT OF OR RELATING TO YOUR USE OF THE CONTENT, INCLUDING ANY SUCH CLAIM CAUSED IN WHOLE OR IN PART BY THE ORDINARY NEGLIGENCE OF THE RELEASED PARTIES.</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>This release does not apply to gross negligence, willful or intentional misconduct, or any liability that cannot be released or limited under applicable law. To the maximum extent permitted by law, the Released Parties will not be liable for any indirect, incidental, consequential, or punitive damages, and our total liability for any claim relating to the Content will not exceed the amount you paid to us in the twelve (12) months preceding the event giving rise to the claim.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>5. No Guarantee of Results</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Individual results vary and depend on many factors outside our control. We make no representation, warranty, or guarantee of any specific fitness, health, weight, body-composition, or performance outcome. The Content is provided "as is" and "as available," without warranties of any kind, whether express or implied, to the fullest extent permitted by law.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>6. Dispute Resolution; Binding Arbitration; Class Action Waiver</h3>
+<p style='font-size:18px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:8px;'>PLEASE READ THIS SECTION CAREFULLY. IT AFFECTS HOW DISPUTES ARE RESOLVED AND REQUIRES THAT THEY BE BROUGHT INDIVIDUALLY RATHER THAN AS PART OF A CLASS ACTION.</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:8px;'>Most concerns can be resolved quickly. Before initiating any formal proceeding, you agree to first contact us at team@endura-method.com and attempt to resolve the matter informally. Any dispute, claim, or controversy arising out of or relating to the Content or this Disclaimer that is not resolved informally will be resolved exclusively through binding individual arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules then in effect, rather than in court. The Federal Arbitration Act governs the interpretation and enforcement of this provision. The arbitration will be conducted in the State of Texas or, at your election, in your home county, or by telephone or video where permitted by the AAA rules. Either party may instead bring an individual claim in small claims court if it qualifies.</p>
+<p style='font-size:18px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:8px;'>YOU AND ENDURA AGREE THAT EACH MAY BRING CLAIMS AGAINST THE OTHER ONLY IN AN INDIVIDUAL CAPACITY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS, COLLECTIVE, CONSOLIDATED, OR REPRESENTATIVE PROCEEDING.</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Your right to opt out: You may opt out of this arbitration and class-action-waiver provision by emailing team@endura-method.com within thirty (30) days of first accepting this Disclaimer, stating your name and your intent to opt out. Opting out will not affect any other provision of this Disclaimer.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>7. Governing Law</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>This Disclaimer and any dispute arising out of or relating to it or the Content are governed by the laws of the State of Texas, without regard to its conflict-of-laws principles, except that the Federal Arbitration Act governs the arbitration provision above.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>8. Acceptance</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>By creating an account, purchasing a subscription, checking the box presented at sign-up, or otherwise accessing or using the Content, you acknowledge that you have read and understood this Disclaimer and agree to be bound by it, including the Assumption of Risk, Release and Limitation of Liability, and Binding Arbitration and Class Action Waiver provisions above.</p>`
   },
   terms: {
     title: "Terms of Service",
-    html: `<p style='font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#7a6e5f;margin-bottom:14px;'>Last updated: October 6, 2026</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>These Terms of Service ("Terms") form a binding agreement between you and DKL Companies LLC d/b/a The Endura Method ("Endura," "we," "our," or "us") and govern your access to and use of the Endura mobile application, the website endura-method.com, and all related content, programs, and services (the "Service"). By creating an account, subscribing, or using the Service, you agree to these Terms. If you do not agree, do not use the Service.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>1. Eligibility</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You must be at least 18 years old (or the age of majority where you live) to create an account and subscribe. By using the Service you represent that you meet this requirement and that the information you provide is accurate and current.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>2. Your Account</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You are responsible for keeping your login credentials confidential and for all activity under your account. Notify us promptly at team@endura-method.com of any unauthorized use. You may not share your account or transfer it to anyone else.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>3. Subscriptions, Billing, and Automatic Renewal</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Free trial.</strong> New subscribers receive a 14-day free trial. A valid payment method is required to start the trial. If you do not cancel before the trial ends, your payment method will be charged the subscription fee when the trial ends and each month after until you cancel.</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Fees.</strong> After the free trial, access to the Service requires a paid subscription of $20 per month (or the then-current price shown at sign-up), plus any applicable taxes.</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Authorization.</strong> By subscribing, you authorize us and our third-party payment processor (Stripe) to charge your selected payment method the recurring fee.</p>
-<p style='font-size:15px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:6px;'>AUTOMATIC RENEWAL. YOUR SUBSCRIPTION AUTOMATICALLY RENEWS EACH MONTH, AND YOUR PAYMENT METHOD WILL BE CHARGED THE THEN-CURRENT FEE, UNTIL YOU CANCEL.</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Cancellation.</strong> You may cancel at any time through Manage subscription in the app (or, for app-store purchases, through your app-store account). Cancellation takes effect at the end of the current billing period, and you keep access until then. If you cancel during your free trial, you will not be charged.</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Price changes.</strong> We may change subscription pricing on prospective notice; any change takes effect at your next renewal.</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'><strong>App-store purchases.</strong> If you subscribe through the Apple App Store or Google Play, billing, renewal, and cancellation are handled by that store under its terms, and you must manage or cancel through your store account.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>4. Refunds</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Except where required by law, fees are non-refundable, and there are no refunds or credits for partial billing periods. If you subscribed through an app store, refund requests are handled by that store under its policies.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>5. License to Use</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Subject to these Terms, we grant you a limited, personal, non-exclusive, non-transferable, revocable license to access and use the Service and Content for your own personal, non-commercial use.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>6. Restrictions</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You agree not to: share, resell, or sublicense your access; download, copy, record, distribute, or publicly display the videos or programs except as the Service expressly allows; reverse engineer or attempt to extract source code; use the Service to build a competing product or service; or use the Service in any unlawful manner or in a way that infringes the rights of others.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>7. Intellectual Property</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>The Service and all Content — including videos, programs, text, graphics, logos, "The Endura Method," and the Foundation, Strength, Hypertrophy, and Recovery blocks — are owned by Endura or its licensors and protected by intellectual-property laws. We reserve all rights not expressly granted to you.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>8. Health Disclaimer, Assumption of Risk, and Release</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Your use of the Service is subject to the Endura Health, Fitness &amp; Liability Disclaimer, which is incorporated into these Terms by reference. It contains important provisions about medical disclaimers, your assumption of risk, and your release of liability. Please read it carefully.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>9. Disclaimer of Warranties</h3>
-<p style='font-size:15px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:14px;'>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, TO THE FULLEST EXTENT PERMITTED BY LAW, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, SECURE, OR ERROR-FREE.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>10. Limitation of Liability</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>To the fullest extent permitted by law, Endura and the Released Parties will not be liable for any indirect, incidental, special, consequential, or punitive damages, and our total liability for any claim relating to the Service will not exceed the amount you paid us in the twelve (12) months before the event giving rise to the claim.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>11. Termination</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You may stop using the Service and cancel at any time. We may suspend or terminate your access if you breach these Terms or as needed to protect the Service or other users. Provisions that by their nature should survive termination (including intellectual property, disclaimers, limitations of liability, and dispute resolution) will survive.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>12. Dispute Resolution; Governing Law</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>These Terms are governed by the laws of the State of Texas, without regard to its conflict-of-laws rules. The binding arbitration and class-action-waiver provisions set out in the Endura Health, Fitness &amp; Liability Disclaimer apply to disputes arising under these Terms and are incorporated here by reference.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>13. Changes to These Terms</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>We may update these Terms from time to time. We will post the updated version with a new "Last updated" date and, where required, provide notice. Your continued use of the Service after changes take effect means you accept the updated Terms.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>14. Contact</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Questions about these Terms: team@endura-method.com. DKL Companies LLC d/b/a The Endura Method, 132 Silverado Drive, Georgetown TX 78633.</p>`
+    html: `<p style='font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:#7a6e5f;margin-bottom:14px;'>Last updated: October 6, 2026</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>These Terms of Service ("Terms") form a binding agreement between you and DKL Companies LLC d/b/a The Endura Method ("Endura," "we," "our," or "us") and govern your access to and use of the Endura mobile application, the website endura-method.com, and all related content, programs, and services (the "Service"). By creating an account, subscribing, or using the Service, you agree to these Terms. If you do not agree, do not use the Service.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>1. Eligibility</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You must be at least 18 years old (or the age of majority where you live) to create an account and subscribe. By using the Service you represent that you meet this requirement and that the information you provide is accurate and current.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>2. Your Account</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You are responsible for keeping your login credentials confidential and for all activity under your account. Notify us promptly at team@endura-method.com of any unauthorized use. You may not share your account or transfer it to anyone else.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>3. Subscriptions, Billing, and Automatic Renewal</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Free trial.</strong> New subscribers receive a 14-day free trial. A valid payment method is required to start the trial. If you do not cancel before the trial ends, your payment method will be charged the subscription fee when the trial ends and each month after until you cancel.</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Fees.</strong> After the free trial, access to the Service requires a paid subscription of $20 per month (or the then-current price shown at sign-up), plus any applicable taxes.</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Authorization.</strong> By subscribing, you authorize us and our third-party payment processor (Stripe) to charge your selected payment method the recurring fee.</p>
+<p style='font-size:18px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:6px;'>AUTOMATIC RENEWAL. YOUR SUBSCRIPTION AUTOMATICALLY RENEWS EACH MONTH, AND YOUR PAYMENT METHOD WILL BE CHARGED THE THEN-CURRENT FEE, UNTIL YOU CANCEL.</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Cancellation.</strong> You may cancel at any time through Manage subscription in the app (or, for app-store purchases, through your app-store account). Cancellation takes effect at the end of the current billing period, and you keep access until then. If you cancel during your free trial, you will not be charged.</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Price changes.</strong> We may change subscription pricing on prospective notice; any change takes effect at your next renewal.</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'><strong>App-store purchases.</strong> If you subscribe through the Apple App Store or Google Play, billing, renewal, and cancellation are handled by that store under its terms, and you must manage or cancel through your store account.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>4. Refunds</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Except where required by law, fees are non-refundable, and there are no refunds or credits for partial billing periods. If you subscribed through an app store, refund requests are handled by that store under its policies.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>5. License to Use</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Subject to these Terms, we grant you a limited, personal, non-exclusive, non-transferable, revocable license to access and use the Service and Content for your own personal, non-commercial use.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>6. Restrictions</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You agree not to: share, resell, or sublicense your access; download, copy, record, distribute, or publicly display the videos or programs except as the Service expressly allows; reverse engineer or attempt to extract source code; use the Service to build a competing product or service; or use the Service in any unlawful manner or in a way that infringes the rights of others.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>7. Intellectual Property</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>The Service and all Content — including videos, programs, text, graphics, logos, "The Endura Method," and the Foundation, Strength, Hypertrophy, and Recovery blocks — are owned by Endura or its licensors and protected by intellectual-property laws. We reserve all rights not expressly granted to you.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>8. Health Disclaimer, Assumption of Risk, and Release</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Your use of the Service is subject to the Endura Health, Fitness &amp; Liability Disclaimer, which is incorporated into these Terms by reference. It contains important provisions about medical disclaimers, your assumption of risk, and your release of liability. Please read it carefully.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>9. Disclaimer of Warranties</h3>
+<p style='font-size:18px;font-weight:700;color:#2a2218;line-height:1.7;margin-bottom:14px;'>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, TO THE FULLEST EXTENT PERMITTED BY LAW, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, SECURE, OR ERROR-FREE.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>10. Limitation of Liability</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>To the fullest extent permitted by law, Endura and the Released Parties will not be liable for any indirect, incidental, special, consequential, or punitive damages, and our total liability for any claim relating to the Service will not exceed the amount you paid us in the twelve (12) months before the event giving rise to the claim.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>11. Termination</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You may stop using the Service and cancel at any time. We may suspend or terminate your access if you breach these Terms or as needed to protect the Service or other users. Provisions that by their nature should survive termination (including intellectual property, disclaimers, limitations of liability, and dispute resolution) will survive.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>12. Dispute Resolution; Governing Law</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>These Terms are governed by the laws of the State of Texas, without regard to its conflict-of-laws rules. The binding arbitration and class-action-waiver provisions set out in the Endura Health, Fitness &amp; Liability Disclaimer apply to disputes arising under these Terms and are incorporated here by reference.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>13. Changes to These Terms</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>We may update these Terms from time to time. We will post the updated version with a new "Last updated" date and, where required, provide notice. Your continued use of the Service after changes take effect means you accept the updated Terms.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>14. Contact</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Questions about these Terms: team@endura-method.com. DKL Companies LLC d/b/a The Endura Method, 132 Silverado Drive, Georgetown TX 78633.</p>`
   },
   privacy: {
     title: "Privacy Policy",
-    html: `<p style='font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#7a6e5f;margin-bottom:14px;'>Last updated: June 25, 2026</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>This Privacy Policy explains how DKL Companies LLC d/b/a The Endura Method ("Endura," "we," "our," or "us") collects, uses, and shares information when you use the Endura app, visit endura-method.com, or otherwise interact with us (the "Service"). By using the Service, you agree to this Policy.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>1. Information We Collect</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Information you provide:</strong> your name, email address, password, and similar account details; communications you send us; and information you enter into the Service, such as workout activity, habit tracking, or progress notes.</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Payment information:</strong> when you subscribe, your payment is processed by our third-party payment processor, Stripe. We do not store full payment-card numbers; we receive limited details such as the last four digits and the transaction status.</p>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'><strong>Information collected automatically:</strong> device and usage information such as IP address, device type, app interactions, and similar analytics data, collected through cookies and similar technologies on the website and through Google Analytics in the app.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>2. How We Use Information</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>We use information to provide, operate, and improve the Service; create and manage your account; process subscriptions and payments; respond to your requests; send service messages and, where permitted, marketing communications; maintain security and prevent fraud; and comply with legal obligations.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>3. Health and Fitness Information</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Any fitness activity, habit, or progress information you enter is used to provide the Service to you. We do not sell this information. Endura is not a healthcare provider, and the Service is not a HIPAA-covered service.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>4. How We Share Information</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>We share information with service providers who help us operate the Service (for example, hosting, payment processing, analytics, and email), under contracts that limit their use of it; with authorities when required by law or to protect rights and safety; and in connection with a business transfer such as a merger, acquisition, or sale of assets. We do not sell your personal information for money.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>5. Cookies and Tracking</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>The website uses cookies and similar technologies for functionality and analytics. You can control cookies through your browser settings.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>6. Your Choices and Rights</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You can access or update your account information in the app, unsubscribe from marketing emails, and ask us to delete your account. Depending on where you live (for example, California, Texas, and other states with privacy laws), you may have rights to access, correct, delete, or obtain a copy of your personal information, and to appeal a denial. To exercise these rights, contact team@endura-method.com. We will not discriminate against you for exercising your rights.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>7. Data Retention</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>We keep personal information for as long as your account is active or as needed to provide the Service, and then retain or dispose of it as required to comply with legal obligations, resolve disputes, and enforce our agreements.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>8. Security</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>We use reasonable administrative, technical, and physical safeguards to protect your information. No method of transmission or storage is completely secure, and we cannot guarantee absolute security.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>9. Children's Privacy</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>The Service is intended for adults and is not directed to children under 13 (or under 16 where applicable). We do not knowingly collect personal information from children. If you believe a child has provided us information, contact us and we will delete it.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>10. International Users</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>The Service is operated from the United States. If you access it from outside the United States, you understand that your information will be processed in the United States, where privacy laws may differ from those in your location.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>11. Changes to This Policy</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>We may update this Policy from time to time and will post the new version with an updated date. We will communicate material changes as required by law.</p>
-<h3 style='font-size:15px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>12. Contact</h3>
-<p style='font-size:15px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Questions about this Policy: team@endura-method.com. DKL Companies LLC d/b/a The Endura Method, 132 Silverado Drive, Georgetown TX 78633.</p>`
+    html: `<p style='font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:#7a6e5f;margin-bottom:14px;'>Last updated: June 25, 2026</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>This Privacy Policy explains how DKL Companies LLC d/b/a The Endura Method ("Endura," "we," "our," or "us") collects, uses, and shares information when you use the Endura app, visit endura-method.com, or otherwise interact with us (the "Service"). By using the Service, you agree to this Policy.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>1. Information We Collect</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Information you provide:</strong> your name, email address, password, and similar account details; communications you send us; and information you enter into the Service, such as workout activity, habit tracking, or progress notes.</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:6px;'><strong>Payment information:</strong> when you subscribe, your payment is processed by our third-party payment processor, Stripe. We do not store full payment-card numbers; we receive limited details such as the last four digits and the transaction status.</p>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'><strong>Information collected automatically:</strong> device and usage information such as IP address, device type, app interactions, and similar analytics data, collected through cookies and similar technologies on the website and through Google Analytics in the app.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>2. How We Use Information</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>We use information to provide, operate, and improve the Service; create and manage your account; process subscriptions and payments; respond to your requests; send service messages and, where permitted, marketing communications; maintain security and prevent fraud; and comply with legal obligations.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>3. Health and Fitness Information</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Any fitness activity, habit, or progress information you enter is used to provide the Service to you. We do not sell this information. Endura is not a healthcare provider, and the Service is not a HIPAA-covered service.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>4. How We Share Information</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>We share information with service providers who help us operate the Service (for example, hosting, payment processing, analytics, and email), under contracts that limit their use of it; with authorities when required by law or to protect rights and safety; and in connection with a business transfer such as a merger, acquisition, or sale of assets. We do not sell your personal information for money.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>5. Cookies and Tracking</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>The website uses cookies and similar technologies for functionality and analytics. You can control cookies through your browser settings.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>6. Your Choices and Rights</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>You can access or update your account information in the app, unsubscribe from marketing emails, and ask us to delete your account. Depending on where you live (for example, California, Texas, and other states with privacy laws), you may have rights to access, correct, delete, or obtain a copy of your personal information, and to appeal a denial. To exercise these rights, contact team@endura-method.com. We will not discriminate against you for exercising your rights.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>7. Data Retention</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>We keep personal information for as long as your account is active or as needed to provide the Service, and then retain or dispose of it as required to comply with legal obligations, resolve disputes, and enforce our agreements.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>8. Security</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>We use reasonable administrative, technical, and physical safeguards to protect your information. No method of transmission or storage is completely secure, and we cannot guarantee absolute security.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>9. Children's Privacy</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>The Service is intended for adults and is not directed to children under 13 (or under 16 where applicable). We do not knowingly collect personal information from children. If you believe a child has provided us information, contact us and we will delete it.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>10. International Users</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>The Service is operated from the United States. If you access it from outside the United States, you understand that your information will be processed in the United States, where privacy laws may differ from those in your location.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>11. Changes to This Policy</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>We may update this Policy from time to time and will post the new version with an updated date. We will communicate material changes as required by law.</p>
+<h3 style='font-size:18px;font-weight:700;color:#2a2218;margin:16px 0 6px;'>12. Contact</h3>
+<p style='font-size:18px;color:#5a5040;line-height:1.7;margin-bottom:14px;'>Questions about this Policy: team@endura-method.com. DKL Companies LLC d/b/a The Endura Method, 132 Silverado Drive, Georgetown TX 78633.</p>`
   }
 };
 
