@@ -490,6 +490,13 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 .theme-toggle{display:flex;gap:8px;}
 .theme-btn{flex:1;padding:14px 10px;border-radius:12px;border:1px solid var(--border);background:var(--ink2);color:var(--cream);font-family:inherit;font-size:16px;cursor:pointer;}
 .theme-btn.active{border-color:var(--gold);background:var(--gold);color:var(--ink);font-weight:500;}
+
+.upcoming-card{margin:12px 22px 0;background:var(--ink2);border:1px dashed var(--border2);border-radius:14px;padding:15px 17px;}
+.upcoming-tag{display:inline-block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border2);border-radius:20px;padding:3px 9px;margin-bottom:8px;}
+.upcoming-name{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);margin-bottom:3px;}
+.upcoming-sub{font-size:15px;color:var(--muted);line-height:1.5;}
+.ex-equip{display:flex;gap:8px;align-items:baseline;margin-bottom:10px;font-size:15px;color:var(--cream);}
+.ex-equip-k{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
 </style>
 </head>
 <body>
@@ -1593,6 +1600,7 @@ function exCardHTML(ex, i, total, label) {
     '<div class="vid-box"><div class="vid-placeholder" id="vp-' + ex.id + '" onclick="loadVid(\'' + ex.id + '\',\'' + ex.videoId + '\')"><div class="vid-play">&#9654;</div><div class="vid-hint">Tap for demo</div></div><div id="vd-' + ex.id + '" style="display:none;position:absolute;inset:0;"></div></div>' +
     '<div class="ex-body"><div class="ex-num">' + label + ' ' + (i+1) + ' of ' + total + '</div><div class="ex-name">' + ex.name + '</div>' +
     '<div class="ex-specs"><div class="spec-item"><div class="spec-v">' + ex.sets + '</div><div class="spec-k">Sets</div></div><div class="spec-item"><div class="spec-v">' + ex.reps + '</div><div class="spec-k">Reps</div></div><div class="spec-item"><div class="spec-v">' + ex.rest + 's</div><div class="spec-k">Rest</div></div></div>' +
+    (exerciseEquipment(ex) ? '<div class="ex-equip"><span class="ex-equip-k">Equipment</span><span class="ex-equip-v">' + exerciseEquipment(ex) + '</span></div>' : '') +
     '<div class="ex-note">"' + ex.note + '"</div>' +
     '<div class="sets-lbl">Tap a set to log reps and weight</div><div class="sets-row">' + bubbles + '</div>' +
     '<div class="set-detail" id="sd-' + ex.id + '">' +
@@ -1735,7 +1743,28 @@ function renderCoachTab() {
   var videoCard = wv ? '<div class="welcome-vid-card au" onclick="openWelcomeModal(false)"><div class="welcome-thumb"><div class="welcome-thumb-overlay"></div><div class="welcome-play">&#9654;</div></div><div class="welcome-vid-body"><div class="welcome-vid-tag">Welcome Video - ' + prog.name + '</div><div class="welcome-vid-title">' + wv.title + '</div><div class="welcome-vid-sub">' + wv.sub + '</div></div></div>' : "";
   var notes = prog.coachNotes && prog.coachNotes.length ? '<div class="coach-notes-card au d2"><div class="coach-notes-title">Block Notes</div>' + prog.coachNotes.map(function(n){ return '<div class="coach-note-item"><div class="coach-note-bullet"></div><div class="coach-note-text">' + n + '</div></div>'; }).join("") + "</div>" : "";
   document.getElementById("coachTabContent").innerHTML = videoCard +
-    "<div class=\"coach-weekly-card au d1\"><div class=\"coach-tag\">Message This Week - Week " + S.currentWeek + "</div><div class=\"coach-quote\" style=\"font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;line-height:1.55;color:var(--cream);\">&ldquo;" + msg.quote + "&rdquo;</div><div class=\"coach-attr\" style=\"font-size:13px;color:var(--muted);margin-top:8px;\">" + msg.attr + "</div></div>" + notes;
+    "<div class=\"coach-weekly-card au d1\"><div class=\"coach-tag\">Message This Week - Week " + S.currentWeek + "</div><div class=\"coach-quote\" style=\"font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;line-height:1.55;color:var(--cream);\">&ldquo;" + msg.quote + "&rdquo;</div><div class=\"coach-attr\" style=\"font-size:13px;color:var(--muted);margin-top:8px;\">" + msg.attr + "</div></div>" + notes + renderUpcomingBlocks();
+}
+
+// ── EQUIPMENT per exercise (fill in from Kim's list; blank = hidden) ──
+var EQUIPMENT = {};
+function exerciseEquipment(ex) {
+  return (ex && (ex.equipment || EQUIPMENT[ex.id])) || "";
+}
+
+// ── UPCOMING BLOCKS (placeholders on the Coach tab) ──
+var UPCOMING_BLOCKS = [
+  { name: "Strength Block",    sub: "Build on your foundation with heavier, focused lifting." },
+  { name: "Hypertrophy Block", sub: "Training designed to build lean muscle." },
+  { name: "Deload Block",      sub: "A lighter week to recover, reset, and come back stronger." }
+];
+
+function renderUpcomingBlocks() {
+  return '<div class="section-label au d2">Upcoming Blocks</div>' +
+    UPCOMING_BLOCKS.map(function(b){
+      return '<div class="upcoming-card au d2"><div class="upcoming-tag">Coming soon</div>' +
+        '<div class="upcoming-name">' + b.name + '</div><div class="upcoming-sub">' + b.sub + '</div></div>';
+    }).join("");
 }
 
 function openWelcomeModal(isAutoPlay) {
