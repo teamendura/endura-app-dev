@@ -18,7 +18,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot, runTransaction }
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, runTransaction, collection, getDocs, query, orderBy, limit }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ── 🔧 FIREBASE CONFIG ──────────────────────────────────────
@@ -39,7 +39,7 @@ const db   = getFirestore(app);
 // Expose to global scope so non-module functions can reach them
 window._enduraAuth = auth;
 window._enduraDb   = db;
-window._fbModules  = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, onSnapshot, runTransaction };
+window._fbModules  = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, onSnapshot, runTransaction, collection, getDocs, query, orderBy, limit };
 
 // ── Core function: check user access and route accordingly ──
 async function checkAndRouteUser(user) {
@@ -70,6 +70,7 @@ async function checkAndRouteUser(user) {
       renderHome();
       window._appBooted = true;
     }
+    if (window.loadAnnouncements) window.loadAnnouncements();
   } else {
     window._currentUser = user;
     document.getElementById("loginScreen").style.display = "none";
@@ -102,6 +103,8 @@ document.addEventListener("visibilitychange", async () => {
       await window._loadFromFirestore(window._currentUser.uid);
       if (!window._appBooted) { load(); renderHome(); window._appBooted = true; }
     }
+    // Check for new notifications whenever the app comes back into view
+    if (document.getElementById("appShell").style.display === "flex" && window.loadAnnouncements) window.loadAnnouncements();
   }
 });
 </script>
@@ -534,6 +537,21 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 .wk-step{display:flex;align-items:center;gap:10px;}
 .wk-step button{width:38px;height:38px;border-radius:50%;border:1px solid var(--border2);background:var(--ink2);color:var(--cream);font-size:20px;cursor:pointer;}
 .wk-step span{min-width:22px;text-align:center;font-size:19px;color:var(--cream);}
+
+/* ── NOTIFICATIONS ── */
+.ann-overlay{align-items:center;justify-content:center;padding:22px;z-index:300;}
+.ann-card{width:100%;max-width:440px;background:var(--ink2);border:1px solid var(--border2);border-radius:18px;padding:22px 20px;max-height:80vh;overflow-y:auto;}
+.ann-tag{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.ann-title{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--cream);line-height:1.2;}
+.ann-date{font-size:15px;color:var(--muted);margin:4px 0 12px;}
+.ann-body{font-size:18px;line-height:1.55;color:var(--cream);white-space:pre-line;}
+.ann-item{cursor:pointer;}
+.ann-item .ann-new{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--gold);border-radius:10px;padding:2px 7px;margin-left:6px;vertical-align:middle;}
+.ann-item .ann-full{display:none;font-size:17px;line-height:1.5;color:var(--cream);white-space:pre-line;margin-top:8px;}
+.ann-item.open .ann-full{display:block;}
+.nav-icon-wrap{position:relative;display:inline-block;}
+.nav-dot{display:none;position:absolute;top:-2px;right:-6px;width:9px;height:9px;border-radius:50%;background:#d0453a;}
+.nav-dot.on{display:block;}
 </style>
 </head>
 <body>
@@ -712,6 +730,10 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
       </div>
     </div>
     <div class="legal-section au d1">
+      <div class="legal-section-title">Notifications</div>
+      <div id="annList"><div class="legal-item"><div class="legal-item-sub">No notifications yet.</div></div></div>
+    </div>
+    <div class="legal-section au d1">
       <div class="legal-section-title">Appearance</div>
       <div class="theme-toggle">
         <button class="theme-btn" id="themeBtnLight" onclick="setTheme('light')">Light</button>
@@ -750,7 +772,7 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
   <button class="nav-btn" id="nav-session" onclick="promptWorkoutPick()"><span class="nav-icon">⚡</span><span class="nav-lbl">Train</span></button>
   <button class="nav-btn" id="nav-coach" onclick="showScreen('coach')"><span class="nav-icon">🎬</span><span class="nav-lbl">Coach</span></button>
   <button class="nav-btn" id="nav-progress" onclick="showScreen('progress')"><span class="nav-icon">◎</span><span class="nav-lbl">Progress</span></button>
-  <button class="nav-btn" id="nav-account" onclick="showScreen('account')"><span class="nav-icon">👤</span><span class="nav-lbl">Account</span></button>
+  <button class="nav-btn" id="nav-account" onclick="showScreen('account')"><span class="nav-icon nav-icon-wrap">👤<span class="nav-dot" id="annDot"></span></span><span class="nav-lbl">Account</span></button>
 </nav>
 
 <!-- HABIT MODAL -->
@@ -764,6 +786,16 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 </div>
 
 <!-- PICK MODAL -->
+<div class="modal-overlay ann-overlay" id="annModal" onclick="closeAnnouncement(event)">
+  <div class="ann-card">
+    <div class="ann-tag">📣 From your coach</div>
+    <div class="ann-title" id="annTitle"></div>
+    <div class="ann-date" id="annDate"></div>
+    <div class="ann-body" id="annBody"></div>
+    <button class="wk-btn" style="width:100%;margin-top:18px;" onclick="closeAnnouncement()">Got it</button>
+  </div>
+</div>
+
 <div class="modal-overlay" id="weekModal" onclick="closeWeekSheet(event)">
   <div class="modal-sheet wk-sheet">
     <div class="modal-handle"></div>
@@ -1399,6 +1431,82 @@ function renderWeekGrid() {
   }).join("");
 }
 
+
+
+// ── NOTIFICATIONS: posted from the coach dashboard, pop up on next open ──
+var ANN = { items: [], queue: [], showing: false };
+
+function annEsc(t) { return String(t || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function annDateLabel(iso) { try { return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); } catch(e) { return ""; } }
+function annSeen(id) { return (S.seenAnnouncements || []).indexOf(id) !== -1; }
+function markAnnSeen(id) {
+  if (!S.seenAnnouncements) S.seenAnnouncements = [];
+  if (!annSeen(id)) { S.seenAnnouncements.push(id); save(); }
+}
+
+window.loadAnnouncements = async function() {
+  var fb = window._fbModules;
+  if (!fb || !fb.getDocs || !window._enduraDb) return;
+  try {
+    var q = fb.query(fb.collection(window._enduraDb, "announcements"), fb.orderBy("createdAt", "desc"), fb.limit(30));
+    var snap = await fb.getDocs(q);
+    var items = [];
+    snap.forEach(function(d){ var v = d.data(); items.push({ id: d.id, title: v.title || "", body: v.body || "", createdAt: v.createdAt || "" }); });
+    ANN.items = items;
+  } catch(e) { console.warn("Notifications load failed:", e); return; }
+  renderAnnouncementList();
+  // Pop up unseen messages from the last 30 days (up to 3, newest first)
+  var cutoff = Date.now() - 30 * 86400000;
+  ANN.queue = ANN.items.filter(function(a){ return !annSeen(a.id) && new Date(a.createdAt).getTime() >= cutoff; }).slice(0, 3);
+  showNextAnnouncement();
+};
+
+function showNextAnnouncement() {
+  if (ANN.showing || !ANN.queue.length) return;
+  var wm = document.getElementById("welcomeModal");
+  if (wm && wm.classList.contains("open")) { setTimeout(showNextAnnouncement, 1500); return; } // wait for welcome video popup
+  var a = ANN.queue[0];
+  document.getElementById("annTitle").textContent = a.title;
+  document.getElementById("annDate").textContent = annDateLabel(a.createdAt);
+  document.getElementById("annBody").textContent = a.body;
+  ANN.showing = true;
+  document.getElementById("annModal").classList.add("open");
+}
+
+function closeAnnouncement(e) {
+  if (e && e.target && e.target.id !== "annModal") return;
+  var a = ANN.queue.shift();
+  if (a) markAnnSeen(a.id);
+  ANN.showing = false;
+  document.getElementById("annModal").classList.remove("open");
+  renderAnnouncementList();
+  setTimeout(showNextAnnouncement, 300);
+}
+
+function renderAnnouncementList() {
+  var el = document.getElementById("annList");
+  var unseen = ANN.items.some(function(a){ return !annSeen(a.id); });
+  var dot = document.getElementById("annDot");
+  if (dot) dot.classList.toggle("on", unseen);
+  if (!el) return;
+  if (!ANN.items.length) { el.innerHTML = '<div class="legal-item"><div class="legal-item-sub">No notifications yet.</div></div>'; return; }
+  el.innerHTML = ANN.items.map(function(a) {
+    return '<div class="legal-item ann-item" onclick="openAnnItem(this, \'' + a.id + '\')">' +
+      '<div class="legal-item-title">' + annEsc(a.title) + (annSeen(a.id) ? '' : '<span class="ann-new">New</span>') + '</div>' +
+      '<div class="legal-item-sub">' + annDateLabel(a.createdAt) + '</div>' +
+      '<div class="ann-full">' + annEsc(a.body) + '</div></div>';
+  }).join("");
+}
+
+function openAnnItem(el, id) {
+  el.classList.toggle("open");
+  if (!annSeen(id)) {
+    markAnnSeen(id);
+    var tag = el.querySelector(".ann-new"); if (tag) tag.remove();
+    var dot = document.getElementById("annDot");
+    if (dot) dot.classList.toggle("on", ANN.items.some(function(a){ return !annSeen(a.id); }));
+  }
+}
 
 // ── PREVIOUS WEEKS: view + edit any started week ──
 var WK = { week: 1, day: null, editing: null, adding: false };
