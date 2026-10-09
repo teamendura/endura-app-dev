@@ -1288,17 +1288,23 @@ function toggleCustomHabit(habitId, ev) {
 }
 
 // Minus button: removes one of today's entries (for accidental taps)
+// Minus button: removes the most recent entry this week (today first, then earlier days)
 function undoCustomHabit(habitId, ev) {
   if (ev) ev.stopPropagation();
-  var k = todayKey();
-  var c = S.customHabitLog[k] ? habitEntryCount(S.customHabitLog[k][habitId]) : 0;
-  if (c <= 0) return;
-  S.customHabitLog[k][habitId] = c - 1;
+  var b = weekBounds();
+  var days = Object.keys(S.customHabitLog).filter(function(dateStr) {
+    var d = new Date(dateStr + "T12:00:00");
+    return d >= b.start && d < b.end && habitEntryCount(S.customHabitLog[dateStr][habitId]) > 0;
+  }).sort();
+  if (!days.length) return;
+  var k = days[days.length - 1];
+  S.customHabitLog[k][habitId] = habitEntryCount(S.customHabitLog[k][habitId]) - 1;
   save();
   renderRings();
   var prog = activeProgram();
   var habit = prog.customHabits.find(function(h){ return h.id === habitId; });
-  if (habit) showToast(habit.name + ": removed one");
+  var when = k === todayKey() ? "today" : new Date(k + "T00:00:00Z").toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" });
+  if (habit) showToast(habit.name + ": removed one (" + when + ")");
 }
 
 // ── SCREENS ──
@@ -1627,7 +1633,7 @@ function renderRings() {
     // Use textContent-safe center label instead of injecting emoji into innerHTML
     var centerLabel = todayDone ? "&#10003;" : String(count);
     html += '<div class="ring-card' + (done ? " ring-done" : "") + '" onclick="toggleCustomHabit(\'' + habit.id + '\', event)">';
-    if (todayDone) html += '<button class="ring-minus" aria-label="Remove one" onclick="undoCustomHabit(\'' + habit.id + '\', event)">&minus;</button>';
+    if (count > 0) html += '<button class="ring-minus" aria-label="Remove one" onclick="undoCustomHabit(\'' + habit.id + '\', event)">&minus;</button>';
     html += '<div class="ring-wrap">' + segmentRingSVG(count, goal) + '<div class="ring-center"><span class="ring-val">' + centerLabel + '</span><span class="ring-unit">' + count + '/' + goal + '</span></div></div>';
     html += '<div class="ring-name">' + (habit.name || habit.id) + '</div>';
     html += '<div class="ring-cadence">' + goal + 'x/week</div></div>';
