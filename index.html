@@ -6,6 +6,29 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#F6F1E8">
+<script>
+// iPhone home-screen app fix: iOS can stop the screen short of the bottom edge
+// (a known Safari bug), leaving an empty gap under the menu. Measure the gap and stretch to fill it.
+(function(){
+  function fixIosGap(){
+    try{
+      var root=document.documentElement, gap=0;
+      if (window.navigator.standalone === true) {
+        var portrait = window.innerHeight > window.innerWidth;
+        var screenH = portrait ? Math.max(screen.height, screen.width) : Math.min(screen.height, screen.width);
+        gap = Math.round(screenH - window.innerHeight);
+        if (gap < 1 || gap > 140) gap = 0;
+      }
+      root.style.setProperty("--ios-gap", gap + "px");
+      root.classList.toggle("ios-gap", gap > 0);
+    }catch(e){}
+  }
+  fixIosGap();
+  window.addEventListener("resize", fixIosGap);
+  window.addEventListener("orientationchange", function(){ setTimeout(fixIosGap, 300); });
+  window.addEventListener("pageshow", fixIosGap);
+})();
+</script>
 <script>try{if(localStorage.getItem("enduraTheme")==="dark"){document.documentElement.setAttribute("data-theme","dark");document.querySelector('meta[name="theme-color"]').setAttribute("content","#14110C");}}catch(e){}</script>
 <title>ENDURA</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -497,6 +520,12 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 .upcoming-sub{font-size:18px;color:var(--muted);line-height:1.5;}
 .ex-equip{display:flex;gap:8px;align-items:baseline;margin-bottom:10px;font-size:18px;color:var(--cream);}
 .ex-equip-k{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+
+/* ── iPhone home-screen bottom gap fix (see script in <head>) ── */
+html.ios-gap .screen, html.ios-gap .modal-overlay, html.ios-gap .auth-screen, html.ios-gap .legal-doc-modal,
+html.ios-gap .paygate-screen, html.ios-gap .complete-screen, html.ios-gap .welcome-modal, html.ios-gap .legal-popup-overlay{bottom:calc(-1 * var(--ios-gap));}
+html.ios-gap .nav-bar{bottom:calc(-1 * var(--ios-gap));}
+html.ios-gap .toast{bottom:calc(85px + env(safe-area-inset-bottom, 0px) - var(--ios-gap));}
 </style>
 </head>
 <body>
