@@ -498,6 +498,42 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 .ex-equip{display:flex;gap:8px;align-items:baseline;margin-bottom:10px;font-size:18px;color:var(--cream);}
 .ex-equip-k{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
 
+
+/* ── PREVIOUS WEEKS (view + edit) ── */
+.wg-cell{cursor:pointer;}
+.wg-hint{font-size:14px;color:var(--muted);padding:8px 22px 0;text-align:right;}
+.wk-sheet{max-height:92vh;}
+.wk-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+.wk-close{background:none;border:1px solid var(--border2);color:var(--cream);width:40px;height:40px;border-radius:50%;font-size:24px;line-height:1;cursor:pointer;flex-shrink:0;}
+.wk-sec{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:18px 0 10px;}
+.wk-card{background:var(--ink);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;}
+.wk-card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.wk-card-name{font-family:'Cormorant Garamond',serif;font-size:23px;color:var(--cream);}
+.wk-card-meta{font-size:15px;color:var(--muted);margin-top:2px;}
+.wk-link{background:none;border:1px solid var(--border2);color:var(--gold);border-radius:20px;padding:7px 14px;font-family:inherit;font-size:15px;cursor:pointer;white-space:nowrap;}
+.wk-ex{border-top:1px solid var(--border);padding:12px 0 4px;margin-top:12px;}
+.wk-ex-name{font-size:17px;color:var(--cream);margin-bottom:8px;}
+.wk-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.wk-field label{display:block;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.wk-input,.wk-select{width:100%;box-sizing:border-box;background:var(--ink2);border:1px solid var(--border2);border-radius:10px;color:var(--cream);font-family:inherit;font-size:18px;padding:10px;}
+.wk-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.wk-btn{flex:1;padding:13px 10px;border-radius:12px;border:1px solid var(--gold);background:var(--gold);color:var(--ink);font-family:inherit;font-size:16px;letter-spacing:.06em;cursor:pointer;}
+.wk-btn.ghost{background:none;color:var(--cream);border-color:var(--border2);}
+.wk-btn.danger{background:none;color:#b5543c;border-color:rgba(181,84,60,.5);}
+.wk-empty{font-size:17px;color:var(--muted);margin-bottom:10px;}
+.wk-days{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;}
+.wk-day{flex:1;min-width:0;background:var(--ink);border:1px solid var(--border);border-radius:12px;padding:8px 2px;text-align:center;cursor:pointer;color:var(--cream);font-family:inherit;}
+.wk-day .wk-dn{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.wk-day .wk-dd{font-size:19px;}
+.wk-day.on{background:var(--gold);border-color:var(--gold);}
+.wk-day.on .wk-dn,.wk-day.on .wk-dd{color:var(--ink);}
+.wk-day:disabled{opacity:.35;cursor:default;}
+.wk-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.wk-row-label{font-size:17px;color:var(--cream);}
+.wk-row .wk-input{width:120px;text-align:right;}
+.wk-step{display:flex;align-items:center;gap:10px;}
+.wk-step button{width:38px;height:38px;border-radius:50%;border:1px solid var(--border2);background:var(--ink2);color:var(--cream);font-size:20px;cursor:pointer;}
+.wk-step span{min-width:22px;text-align:center;font-size:19px;color:var(--cream);}
 </style>
 </head>
 <body>
@@ -595,6 +631,7 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
       <div class="program-track"><div class="program-fill" id="programFill" style="width:0%"></div></div>
     </div>
     <div class="week-grid au d1" id="weekGrid"></div>
+    <div class="wg-hint au d1">Tap a week to view or edit</div>
     <div class="home-greeting au d1">
       <div class="greeting-line">Today is a<br><em id="homeDayLabel">—</em> kind of day.</div>
       <div class="greeting-date" id="homeDate">—</div>
@@ -727,6 +764,15 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 </div>
 
 <!-- PICK MODAL -->
+<div class="modal-overlay" id="weekModal" onclick="closeWeekSheet(event)">
+  <div class="modal-sheet wk-sheet">
+    <div class="modal-handle"></div>
+    <div class="wk-top"><div><div class="modal-title" id="wkTitle">Week</div><div class="modal-sub" id="wkSub"></div></div>
+    <button class="wk-close" onclick="closeWeekSheet()" aria-label="Close">&times;</button></div>
+    <div id="wkBody"></div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="pickModal" onclick="closePickModal(event)">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
@@ -1343,8 +1389,166 @@ function renderWeekGrid() {
     var lifts = Math.min(3, logs.length);
     var dots = [0,1,2].map(function(di){ return '<div class="wg-dot' + (di < lifts ? " lit" : "") + '"></div>'; }).join("");
     var cls = isDone ? "wg-done" : isCur ? "wg-current" : "";
-    return '<div class="wg-cell ' + cls + '"><div class="wg-num">' + (isDone ? "✓" : wk) + '</div><div class="wg-dots">' + dots + '</div></div>';
+    return '<div class="wg-cell ' + cls + '" onclick="openWeekSheet(' + wk + ')"><div class="wg-num">' + (isDone ? "✓" : wk) + '</div><div class="wg-dots">' + dots + '</div></div>';
   }).join("");
+}
+
+
+// ── PREVIOUS WEEKS: view + edit any started week ──
+var WK = { week: 1, day: null, editing: null, adding: false };
+
+function addDaysKey(key, n) {
+  var d = new Date(key + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+}
+function dayLabel(key, opts) {
+  return new Date(key + "T00:00:00Z").toLocaleDateString("en-US", Object.assign({ timeZone: "UTC" }, opts));
+}
+function programWeekDays(wk) {
+  var start = addDaysKey(S.programStartDate, (wk - 1) * 7);
+  var days = []; for (var i = 0; i < 7; i++) days.push(addDaysKey(start, i));
+  return days;
+}
+function wkNum(v) { var n = parseFloat(v); return isNaN(n) || n < 0 ? 0 : n; }
+
+function openWeekSheet(wk) {
+  if (wk > S.currentWeek) { showToast("Week " + wk + " hasn't started yet"); return; }
+  var days = programWeekDays(wk), today = todayKey();
+  WK.week = wk; WK.editing = null; WK.adding = false;
+  var past = days.filter(function(d){ return d <= today; });
+  WK.day = past.length ? past[past.length - 1] : days[0];
+  document.getElementById("wkTitle").textContent = "Week " + wk + (wk === S.currentWeek ? " (this week)" : "");
+  document.getElementById("wkSub").textContent = dayLabel(days[0], { month: "short", day: "numeric" }) + " – " + dayLabel(days[6], { month: "short", day: "numeric" });
+  renderWeekSheet();
+  document.getElementById("weekModal").classList.add("open");
+}
+
+function closeWeekSheet(e) {
+  if (e && e.target && e.target.id !== "weekModal") return;
+  document.getElementById("weekModal").classList.remove("open");
+  renderWeekGrid(); renderRings();
+}
+
+function renderWeekSheet() {
+  var prog = activeProgram(), wk = WK.week;
+  var days = programWeekDays(wk), today = todayKey();
+  var logs = S.log.map(function(l, i){ return { l: l, i: i }; })
+    .filter(function(o){ return o.l.programId === prog.id && o.l.weekNum === wk; });
+  var html = '<div class="wk-sec">Workouts</div>';
+  if (!logs.length && !WK.adding) html += '<div class="wk-empty">No workouts logged this week.</div>';
+  logs.forEach(function(o) {
+    var l = o.l;
+    html += '<div class="wk-card"><div class="wk-card-head"><div><div class="wk-card-name">' + l.name + '</div>' +
+      '<div class="wk-card-meta">' + dayLabel(l.date, { weekday: "short", month: "short", day: "numeric" }) + ' · ' + (l.sets || 0) + ' sets</div></div>' +
+      (WK.editing === o.i ? '' : '<button class="wk-link" onclick="editWeekWorkout(' + o.i + ')">View / Edit</button>') + '</div>';
+    if (WK.editing === o.i) html += workoutEditForm(o.i, days, today);
+    html += '</div>';
+  });
+  if (WK.adding) {
+    var opts = prog.workouts.map(function(w){ return '<option value="' + w.id + '">' + w.name + '</option>'; }).join("");
+    var dOpts = days.filter(function(d){ return d <= today; }).map(function(d){ return '<option value="' + d + '">' + dayLabel(d, { weekday: "short", month: "short", day: "numeric" }) + '</option>'; }).join("");
+    html += '<div class="wk-card"><div class="wk-card-name">Add a missed workout</div>' +
+      '<div class="wk-field" style="margin-top:10px;"><label>Workout</label><select class="wk-select" id="wkAddW">' + opts + '</select></div>' +
+      '<div class="wk-field" style="margin-top:10px;"><label>Day</label><select class="wk-select" id="wkAddD">' + dOpts + '</select></div>' +
+      '<div class="wk-actions"><button class="wk-btn ghost" onclick="WK.adding=false;renderWeekSheet()">Cancel</button><button class="wk-btn" onclick="addWeekWorkout()">Add</button></div></div>';
+  } else if (WK.editing === null) {
+    html += '<button class="wk-btn ghost" style="width:100%;" onclick="WK.adding=true;renderWeekSheet()">+ Add a missed workout</button>';
+  }
+
+  // Daily habits for the selected day
+  html += '<div class="wk-sec">Daily habits</div><div class="wk-days">' + days.map(function(d) {
+    return '<button class="wk-day' + (d === WK.day ? " on" : "") + '"' + (d > today ? " disabled" : "") + ' onclick="WK.day=\'' + d + '\';renderWeekSheet()">' +
+      '<div class="wk-dn">' + dayLabel(d, { weekday: "short" }) + '</div><div class="wk-dd">' + dayLabel(d, { day: "numeric" }) + '</div></button>';
+  }).join("") + '</div>';
+  var k = WK.day, h = S.habits[k] || {}, c = S.customHabitLog[k] || {};
+  if (isTileEnabled("steps")) html += '<div class="wk-row"><div class="wk-row-label">Steps</div><input class="wk-input" type="number" inputmode="numeric" min="0" max="100000" value="' + (h.steps || 0) + '" onchange="setDayHabit(\'steps\', this.value)"></div>';
+  if (isTileEnabled("meditation")) html += '<div class="wk-row"><div class="wk-row-label">Meditation (min)</div><input class="wk-input" type="number" inputmode="numeric" min="0" max="600" value="' + (h.meditation || 0) + '" onchange="setDayHabit(\'meditation\', this.value)"></div>';
+  (prog.customHabits || []).forEach(function(hb) {
+    if (!isTileEnabled(hb.id)) return;
+    html += '<div class="wk-row"><div class="wk-row-label">' + hb.emoji + ' ' + hb.name + '</div><div class="wk-step">' +
+      '<button onclick="stepDayHabit(\'' + hb.id + '\',-1)" aria-label="Remove one">&minus;</button><span>' + habitEntryCount(c[hb.id]) + '</span>' +
+      '<button onclick="stepDayHabit(\'' + hb.id + '\',1)" aria-label="Add one">+</button></div></div>';
+  });
+  document.getElementById("wkBody").innerHTML = html;
+}
+
+function workoutEditForm(idx, days, today) {
+  var l = S.log[idx];
+  var def = (activeProgram().workouts || []).find(function(w){ return w.id === l.workoutId; });
+  var exList = def ? def.exercises.concat(def.abs || []) : [];
+  var data = l.exerciseData || {};
+  // include any logged exercise not in the current workout plan
+  Object.keys(data).forEach(function(id){ if (!exList.some(function(e){ return e.id === id; })) exList.push({ id: id, name: data[id].name }); });
+  var dOpts = days.filter(function(d){ return d <= today; }).map(function(d){ return '<option value="' + d + '"' + (d === l.date ? " selected" : "") + '>' + dayLabel(d, { weekday: "short", month: "short", day: "numeric" }) + '</option>'; }).join("");
+  var html = '<div class="wk-field" style="margin-top:12px;"><label>Day</label><select class="wk-select" id="wkDate">' + dOpts + '</select></div>';
+  exList.forEach(function(ex) {
+    var d = data[ex.id] || {};
+    html += '<div class="wk-ex"><div class="wk-ex-name">' + ex.name + '</div><div class="wk-fields">' +
+      '<div class="wk-field"><label>Sets</label><input class="wk-input" type="number" inputmode="numeric" min="0" max="20" id="wkS-' + ex.id + '" value="' + (d.sets || "") + '" placeholder="0"></div>' +
+      '<div class="wk-field"><label>Best reps</label><input class="wk-input" type="number" inputmode="numeric" min="0" max="99" id="wkR-' + ex.id + '" value="' + (d.bestReps || "") + '" placeholder="0"></div>' +
+      '<div class="wk-field"><label>Weight (lbs)</label><input class="wk-input" type="number" inputmode="decimal" min="0" max="999" step="2.5" id="wkW-' + ex.id + '" value="' + (d.bestWeight || "") + '" placeholder="0"></div>' +
+      '</div></div>';
+  });
+  html += '<div class="wk-actions"><button class="wk-btn ghost" onclick="WK.editing=null;renderWeekSheet()">Cancel</button>' +
+    '<button class="wk-btn" onclick="saveWeekWorkout(' + idx + ')">Save</button></div>' +
+    '<div class="wk-actions"><button class="wk-btn danger" onclick="deleteWeekWorkout(' + idx + ')">Delete this workout</button></div>';
+  WK._exIds = exList.map(function(e){ return { id: e.id, name: e.name }; });
+  return html;
+}
+
+function editWeekWorkout(idx) { WK.editing = idx; WK.adding = false; renderWeekSheet(); }
+
+function saveWeekWorkout(idx) {
+  var l = S.log[idx]; if (!l) return;
+  var data = {}, total = 0;
+  (WK._exIds || []).forEach(function(ex) {
+    var sets = Math.round(wkNum(document.getElementById("wkS-" + ex.id).value));
+    var reps = Math.round(wkNum(document.getElementById("wkR-" + ex.id).value));
+    var wt = wkNum(document.getElementById("wkW-" + ex.id).value);
+    if (sets > 0 || reps > 0 || wt > 0) {
+      if (sets < 1) sets = 1;
+      data[ex.id] = { name: ex.name, sets: sets, bestReps: reps, bestWeight: wt };
+      total += sets;
+    }
+  });
+  var dateEl = document.getElementById("wkDate");
+  if (dateEl && dateEl.value) l.date = dateEl.value;
+  // keep sets that were done without reps/weight (not stored per exercise)
+  var oldSum = Object.values(l.exerciseData || {}).reduce(function(a, d){ return a + (d.sets || 0); }, 0);
+  var extra = Math.max(0, (l.sets || 0) - oldSum);
+  l.exerciseData = data; l.sets = total + extra;
+  save(); WK.editing = null; renderWeekSheet(); showToast("Workout updated");
+}
+
+function deleteWeekWorkout(idx) {
+  if (!confirm("Delete this workout from Week " + WK.week + "? This can't be undone.")) return;
+  S.log.splice(idx, 1);
+  save(); WK.editing = null; renderWeekSheet(); showToast("Workout deleted");
+}
+
+function addWeekWorkout() {
+  var prog = activeProgram();
+  var w = prog.workouts.find(function(x){ return x.id === document.getElementById("wkAddW").value; });
+  var date = document.getElementById("wkAddD").value;
+  if (!w || !date) return;
+  S.log.push({ date: date, programId: prog.id, weekNum: WK.week, workoutId: w.id, name: w.name, sets: 0, exerciseData: {} });
+  save();
+  WK.adding = false; WK.editing = S.log.length - 1;
+  renderWeekSheet(); showToast("Workout added");
+}
+
+function setDayHabit(type, val) {
+  var k = WK.day;
+  if (!S.habits[k]) S.habits[k] = { steps: 0, meditation: 0 };
+  S.habits[k][type] = Math.round(wkNum(val));
+  save(); showToast("Saved");
+}
+
+function stepDayHabit(id, delta) {
+  var k = WK.day;
+  if (!S.customHabitLog[k]) S.customHabitLog[k] = {};
+  S.customHabitLog[k][id] = Math.max(0, habitEntryCount(S.customHabitLog[k][id]) + delta);
+  save(); renderWeekSheet();
 }
 
 // ── RINGS ──
