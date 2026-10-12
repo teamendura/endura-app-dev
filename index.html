@@ -498,7 +498,7 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 .upcoming-tag{display:inline-block;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border2);border-radius:20px;padding:3px 9px;margin-bottom:8px;}
 .upcoming-name{font-family:'Cormorant Garamond',serif;font-size:25px;color:var(--cream);margin-bottom:3px;}
 .upcoming-sub{font-size:18px;color:var(--muted);line-height:1.5;}
-.ex-equip{display:flex;gap:8px;align-items:baseline;margin-bottom:10px;font-size:18px;color:var(--cream);}
+.ex-equip{display:flex;flex-direction:column;gap:3px;margin-bottom:12px;line-height:1.45;font-size:18px;color:var(--cream);}
 .ex-equip-k{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
 
 
@@ -879,6 +879,7 @@ const COACH_MESSAGES = [
 const WARMUP = {
   videoId: "RVo3oUkm1jg",
   defaultMinutes: 8,
+  equipment: "Exercise floor mat",
   title: "Warm-Up & Activation",
   sub: "Follow along, then begin your lifts.",
   note: "Move through each sequence with intention. This is where injury prevention lives."
@@ -944,7 +945,7 @@ const PROGRAMS = [
     totalWeeks: 8,
     workouts: WORKOUTS_BLOCK1,
     welcomeVideo: {
-      videoId: "zUf0-EvaER4",
+      videoId: "5o9nYwg2g9w",
       title: "Welcome to Foundation Block",
       sub: "Before you lift a single weight, watch this. Everything you need to know about the next 8 weeks."
     },
@@ -1908,6 +1909,7 @@ function buildWarmupHTML() {
   return '<div class="warmup-card" id="warmupCard">' +
     '<div class="wu-vid-box"><div class="wu-placeholder" id="wuPlaceholder" onclick="loadWarmupVid()"><div class="vid-play">&#9654;</div><div class="vid-hint">Tap to play warm-up</div></div><div id="wuVidFrame" style="display:none;position:absolute;inset:0;"></div></div>' +
     '<div class="wu-body"><div class="wu-tag">Before Every Session</div><div class="wu-title">' + WARMUP.title + '</div><div class="wu-sub">' + WARMUP.sub + '</div>' +
+    (WARMUP.equipment ? '<div class="ex-equip" style="margin-top:10px;"><span class="ex-equip-k">Equipment</span><span class="ex-equip-v">' + WARMUP.equipment + '</span></div>' : '') +
     '<div class="timer-row"><div class="timer-display" id="timerDisplay">8:00</div><div><div class="timer-adj"><button class="adj-btn" onclick="adjustTimer(-60)">-</button><button class="adj-btn" onclick="adjustTimer(60)">+</button></div><div class="timer-hint">Adjust min</div></div></div>' +
     '<div class="timer-track"><div class="timer-fill" id="timerFill" style="width:100%"></div></div>' +
     '<div class="ex-note">"' + WARMUP.note + '"</div>' +
@@ -2132,7 +2134,33 @@ function renderCoachTab() {
 }
 
 // ── EQUIPMENT per exercise (fill in from Kim's list; blank = hidden) ──
-var EQUIPMENT = {};
+var EQUIPMENT = {
+  bq1: "1 heavy dumbbell",
+  bq2: "1 heavy kettlebell",
+  bq3: "Lat bar on a cable/pulley machine; substitute with an overhead band if you don’t have access to a cable/pulley machine",
+  bq4: "2 medium-weight dumbbells, 1 flat plate or small step to elevate the front foot",
+  bq5: "1 D-handle on a cable/pulley machine; substitute with a band if you don’t have access to a cable/pulley machine",
+  bq6: "2 medium-weight dumbbells",
+  bq7: "Small straight bar or multi-grip curl bar on a cable/pulley machine; substitute with a band if you don’t have access to a cable/pulley machine",
+  bqa1: "Exercise floor mat",
+  hc1: "2 medium- to heavy-weight dumbbells",
+  hc2: "2 light- to medium-weight dumbbells",
+  hc3: "2 medium- to heavy-weight dumbbells",
+  hc4: "2 light-weight dumbbells",
+  hc5: "1 exercise floor mat, 1 large exercise ball",
+  hc6: "2 D-handles on a cable/pulley machine; substitute with bands if you don’t have access to a cable/pulley machine",
+  hca1: "Exercise floor mat",
+  ga1: "2 light- to medium-weight dumbbells",
+  ga2: "Exercise floor mat, 1 loop band",
+  ga3: "2 light-weight dumbbells",
+  ga4: "2 ankle straps on a cable/pulley machine; substitute with a loop band if you don’t have access to a cable/pulley machine",
+  ga5: "1 light barbell plate; substitute with a light dumbbell if needed",
+  ga6: "1 loop band",
+  ga7: "2 light-weight dumbbells",
+  ga8: "2 light- to medium-weight dumbbells",
+  ga9: "1 medium-weight dumbbell",
+  gaa1: "1 exercise floor mat, 1 triceps rope on a cable/pulley machine; substitute with a band if you don’t have access to a cable/pulley machine"
+};
 function exerciseEquipment(ex) {
   return (ex && (ex.equipment || EQUIPMENT[ex.id])) || "";
 }
