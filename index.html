@@ -552,6 +552,11 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 .nav-icon-wrap{position:relative;display:inline-block;}
 .nav-dot{display:none;position:absolute;top:-2px;right:-6px;width:9px;height:9px;border-radius:50%;background:#d0453a;}
 .nav-dot.on{display:block;}
+
+.ann-item{position:relative;padding-right:52px;}
+.ann-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:1px solid var(--border2);background:none;color:var(--muted);font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+.ann-clear-row{display:flex;justify-content:flex-end;margin:-4px 0 8px;}
+.ann-clear-all{background:none;border:none;color:var(--gold);font-family:inherit;font-size:16px;text-decoration:underline;cursor:pointer;padding:4px 0;}
 </style>
 </head>
 <body>
@@ -1439,6 +1444,7 @@ var ANN = { items: [], queue: [], showing: false };
 function annEsc(t) { return String(t || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function annDateLabel(iso) { try { return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); } catch(e) { return ""; } }
 function annSeen(id) { return (S.seenAnnouncements || []).indexOf(id) !== -1; }
+function annHidden(id) { return (S.hiddenAnnouncements || []).indexOf(id) !== -1; }
 function markAnnSeen(id) {
   if (!S.seenAnnouncements) S.seenAnnouncements = [];
   if (!annSeen(id)) { S.seenAnnouncements.push(id); save(); }
@@ -1457,7 +1463,7 @@ window.loadAnnouncements = async function() {
   renderAnnouncementList();
   // Pop up unseen messages from the last 30 days (up to 3, newest first)
   var cutoff = Date.now() - 30 * 86400000;
-  ANN.queue = ANN.items.filter(function(a){ return !annSeen(a.id) && new Date(a.createdAt).getTime() >= cutoff; }).slice(0, 3);
+  ANN.queue = ANN.items.filter(function(a){ return !annSeen(a.id) && !annHidden(a.id) && new Date(a.createdAt).getTime() >= cutoff; }).slice(0, 3);
   showNextAnnouncement();
 };
 
@@ -1483,15 +1489,23 @@ function closeAnnouncement(e) {
   setTimeout(showNextAnnouncement, 300);
 }
 
+function visibleAnnouncements() { return ANN.items.filter(function(a){ return !annHidden(a.id); }); }
+
+function updateAnnDot() {
+  var dot = document.getElementById("annDot");
+  if (dot) dot.classList.toggle("on", visibleAnnouncements().some(function(a){ return !annSeen(a.id); }));
+}
+
 function renderAnnouncementList() {
   var el = document.getElementById("annList");
-  var unseen = ANN.items.some(function(a){ return !annSeen(a.id); });
-  var dot = document.getElementById("annDot");
-  if (dot) dot.classList.toggle("on", unseen);
+  updateAnnDot();
   if (!el) return;
-  if (!ANN.items.length) { el.innerHTML = '<div class="legal-item"><div class="legal-item-sub">No notifications yet.</div></div>'; return; }
-  el.innerHTML = ANN.items.map(function(a) {
+  var list = visibleAnnouncements();
+  if (!list.length) { el.innerHTML = '<div class="legal-item"><div class="legal-item-sub">No notifications.</div></div>'; return; }
+  el.innerHTML = (list.length > 1 ? '<div class="ann-clear-row"><button class="ann-clear-all" onclick="clearAllAnnouncements()">Clear all</button></div>' : '') +
+    list.map(function(a) {
     return '<div class="legal-item ann-item" onclick="openAnnItem(this, \'' + a.id + '\')">' +
+      '<button class="ann-x" aria-label="Remove" onclick="hideAnnouncement(\'' + a.id + '\', event)">&times;</button>' +
       '<div class="legal-item-title">' + annEsc(a.title) + (annSeen(a.id) ? '' : '<span class="ann-new">New</span>') + '</div>' +
       '<div class="legal-item-sub">' + annDateLabel(a.createdAt) + '</div>' +
       '<div class="ann-full">' + annEsc(a.body) + '</div></div>';
@@ -1503,9 +1517,29 @@ function openAnnItem(el, id) {
   if (!annSeen(id)) {
     markAnnSeen(id);
     var tag = el.querySelector(".ann-new"); if (tag) tag.remove();
-    var dot = document.getElementById("annDot");
-    if (dot) dot.classList.toggle("on", ANN.items.some(function(a){ return !annSeen(a.id); }));
+    updateAnnDot();
   }
+}
+
+// Remove a notification from this person's list only (everyone else still sees it)
+function hideAnnouncement(id, ev) {
+  if (ev) ev.stopPropagation();
+  if (!S.hiddenAnnouncements) S.hiddenAnnouncements = [];
+  if (!annHidden(id)) S.hiddenAnnouncements.push(id);
+  if (!S.seenAnnouncements) S.seenAnnouncements = [];
+  if (!annSeen(id)) S.seenAnnouncements.push(id);
+  save(); renderAnnouncementList(); showToast("Notification removed");
+}
+
+function clearAllAnnouncements() {
+  if (!confirm("Clear all notifications from your list?")) return;
+  if (!S.hiddenAnnouncements) S.hiddenAnnouncements = [];
+  if (!S.seenAnnouncements) S.seenAnnouncements = [];
+  visibleAnnouncements().forEach(function(a){
+    S.hiddenAnnouncements.push(a.id);
+    if (!annSeen(a.id)) S.seenAnnouncements.push(a.id);
+  });
+  save(); renderAnnouncementList(); showToast("Notifications cleared");
 }
 
 // ── PREVIOUS WEEKS: view + edit any started week ──
