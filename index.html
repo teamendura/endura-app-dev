@@ -380,10 +380,10 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .set-detail{display:none;background:var(--ink3);border-radius:10px;padding:10px 12px;margin-top:4px;}
 .set-detail.open{display:block;}
 .set-detail-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.set-detail-label{font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);width:42px;flex-shrink:0;}
-.set-detail-input{flex:1;background:var(--ink2);border:1px solid var(--border2);border-radius:7px;padding:7px 10px;font-family:'Jost',sans-serif;font-size:19px;color:var(--cream);text-align:center;-webkit-appearance:none;}
+.set-detail-label{font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);width:78px;flex-shrink:0;}
+.set-detail-input{flex:1;min-width:0;max-width:140px;background:var(--ink2);border:1px solid var(--border2);border-radius:7px;padding:7px 10px;font-family:'Jost',sans-serif;font-size:19px;color:var(--cream);text-align:center;-webkit-appearance:none;}
 .set-detail-input:focus{outline:none;border-color:var(--gold);}
-.set-detail-unit{font-size:16px;color:var(--muted);width:26px;}
+.set-detail-unit{font-size:16px;color:var(--muted);min-width:34px;}
 .set-detail-save{width:100%;margin-top:10px;background:var(--gold);border:none;border-radius:7px;padding:9px;font-family:'Jost',sans-serif;font-size:17px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--ink);cursor:pointer;}
 .set-saved-info{font-size:16px;color:var(--gold);margin-top:3px;text-align:center;}
 .ex-btn{width:100%;background:var(--ink3);border:1px solid var(--border);border-radius:9px;padding:11px;font-family:'Jost',sans-serif;font-size:17px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .2s;}
@@ -424,7 +424,7 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .stat-u{font-size:16px;color:var(--muted);}.stat-l{font-size:15px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:3px;}
 .chart-box{margin:12px 22px 0;background:var(--ink2);border:1px solid var(--border);border-radius:14px;padding:16px;}
 .chart-title{font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
-.bar-chart{display:flex;align-items:flex-end;gap:5px;height:68px;}
+.bar-chart{display:flex;align-items:flex-end;gap:5px;min-height:90px;}
 .bc{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
 .bbar{width:100%;border-radius:3px 3px 0 0;background:var(--ink3);min-height:4px;}
 .bbar.lit{background:var(--gold);}
@@ -437,7 +437,7 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .trend-pill.active{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:500;}
 .trend-chart-box{background:var(--ink2);border:1px solid var(--border);border-radius:14px;padding:14px;}
 .trend-no-data{font-size:18px;color:var(--muted);text-align:center;padding:18px 0;}
-.trend-points{display:flex;align-items:flex-end;gap:4px;height:74px;margin-bottom:8px;}
+.trend-points{display:flex;align-items:flex-end;gap:4px;min-height:110px;margin-bottom:8px;padding-top:4px;}
 .tp-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
 .tp-bar{width:100%;border-radius:3px 3px 0 0;background:var(--gold);min-height:4px;}
 .tp-val{font-size:14px;color:var(--muted);white-space:nowrap;}
@@ -561,6 +561,9 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 .undo-bar{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom, 0px));transform:translate(-50%,20px);width:calc(100% - 44px);max-width:420px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--cream);color:var(--ink);border-radius:14px;padding:12px 12px 12px 18px;font-size:17px;z-index:600;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 6px 20px rgba(0,0,0,.25);}
 .undo-bar.show{opacity:1;pointer-events:auto;transform:translate(-50%,0);}
 .undo-bar button{background:none;border:1px solid currentColor;color:inherit;font-family:inherit;font-size:16px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:10px;padding:8px 14px;cursor:pointer;}
+
+.complete-x{position:absolute;top:calc(env(safe-area-inset-top, 0px) + 14px);right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:none;color:var(--cream);font-size:28px;line-height:1;cursor:pointer;}
+.complete-restart{width:100%;max-width:360px;margin-top:14px;padding:15px;border-radius:12px;border:1px solid var(--gold);background:var(--gold);color:var(--ink);font-family:inherit;font-size:17px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -820,7 +823,7 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title">Choose Your Lift</div>
-    <div class="modal-sub">Pick whichever fits your week — you can repeat any workout.</div>
+    <div class="modal-sub">Pick whichever fits for today and try to hit all three in a week. You can also repeat any workout.</div>
     <div id="pickModalBody"></div>
   </div>
 </div>
@@ -840,12 +843,14 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 
 <!-- PROGRAM COMPLETE -->
 <div class="complete-screen" id="completeScreen">
+  <button class="complete-x" onclick="dismissCompletion()" aria-label="Close">&times;</button>
   <div class="complete-icon">🏆</div>
   <div class="complete-title" id="completeTitle">—</div>
   <div class="complete-sub" id="completeSub">—</div>
   <div class="complete-stats" id="completeStats"></div>
   <div id="newProgramSlot" style="width:100%;"></div>
-  <button class="dismiss-btn" onclick="dismissCompletion()">Stay with current program</button>
+  <button class="complete-restart" id="completeRestart" onclick="restartProgram()">Restart from Week 1</button>
+  <button class="dismiss-btn" onclick="dismissCompletion()">Review this block</button>
 </div>
 
 </div><!-- /appShell -->
@@ -947,13 +952,13 @@ const PROGRAMS = [
     welcomeVideo: {
       videoId: "5o9nYwg2g9w",
       title: "Welcome to Foundation Block",
-      sub: "Before you lift a single weight, watch this. Everything you need to know about the next 8 weeks."
+      sub: "Watch this before you start. Everything you need to know about the next 8 weeks."
     },
     coachNotes: [
       "Prioritize form over load for the first two weeks. Your nervous system is learning.",
-      "Rest days are programmed. Muscle is built during recovery, not during the session.",
-      "Log your weights every session. The data becomes your biggest motivator by week 4.",
-      "If something hurts (not sore - hurts), stop and modify. Message me."
+      "Be sure to include at least 2 rest days. Muscle is built during recovery.",
+      "Log your weight every session so you can see your progress. The data will become one of your biggest motivators by week 4.",
+      "If something hurts, stop and modify. Message your coach."
     ],
     // ── CUSTOM HABIT CARDS ──
     // type "weekly": ring fills as she logs each day toward her weekly goal
@@ -1275,7 +1280,7 @@ function workoutsThisCalendarWeek() {
 
 function workoutsInProgramWeek(wk) {
   var prog = activeProgram();
-  return S.log.filter(function(l){ return l.programId === prog.id && l.weekNum === wk; });
+  return S.log.filter(function(l){ return l.programId === prog.id && l.weekNum === wk && (!S.programStartDate || l.date >= S.programStartDate); });
 }
 
 function isProgramComplete() {
@@ -1359,6 +1364,8 @@ function showScreen(id) {
   document.querySelectorAll(".nav-btn").forEach(function(b){ b.classList.remove("active"); });
   var navMap = { home:"nav-home", session:"nav-session", coach:"nav-coach", progress:"nav-progress", account:"nav-account" };
   if (navMap[id]) document.getElementById(navMap[id]).classList.add("active");
+  // Every tab opens at the top
+  if (id !== "session") { var sb = document.querySelector("#" + id + " .scroll-body"); if (sb) sb.scrollTop = 0; }
   if (id === "home") renderHome();
   if (id === "progress") renderProgress();
   if (id === "coach") renderCoachTab();
@@ -1417,7 +1424,7 @@ function renderHome() {
     document.getElementById("coachCard").innerHTML = '<div class="coach-tag">Coach\'s Message \u00b7 Week ' + S.currentWeek + '</div><div class="coach-quote">&ldquo;' + msg.quote + '&rdquo;</div><div class="coach-attr">' + msg.attr + '</div>';
     renderRings();
     renderWorkoutCards();
-    if (isProgramComplete()) setTimeout(showCompletionScreen, 700);
+    if (isProgramComplete() && !(S.completionSeen && S.completionSeen[prog.id] === S.programStartDate)) setTimeout(showCompletionScreen, 700);
     if (prog.welcomeVideo && !S.seenWelcome[prog.id]) {
       setTimeout(function(){ openWelcomeModal(true); }, 900);
     }
@@ -1614,7 +1621,7 @@ function renderWeekSheet() {
   var prog = activeProgram(), wk = WK.week;
   var days = programWeekDays(wk), today = todayKey();
   var logs = S.log.map(function(l, i){ return { l: l, i: i }; })
-    .filter(function(o){ return o.l.programId === prog.id && o.l.weekNum === wk; });
+    .filter(function(o){ return o.l.programId === prog.id && o.l.weekNum === wk && (!S.programStartDate || o.l.date >= S.programStartDate); });
   var html = '<div class="wk-sec">Workouts</div>';
   if (!logs.length && !WK.adding) html += '<div class="wk-empty">No workouts logged this week.</div>';
   logs.forEach(function(o) {
@@ -1890,6 +1897,7 @@ function startWorkout(wId) {
   openSetIdx = {};
   renderSession();
   showScreen("session");
+  var exList = document.getElementById("exList"); if (exList) exList.scrollTop = 0; // open workout at the top
 }
 
 function renderSession() {
@@ -2031,7 +2039,7 @@ function saveSetDetail(exId) {
   var allDone = S.sessionSets[exId].every(setDone);
   var btn = document.getElementById("eb-" + exId);
   btn.classList.toggle("ready", allDone);
-  if (allDone) { btn.textContent = "All Done"; document.getElementById("ec-" + exId).classList.add("ex-done"); }
+  if (allDone) btn.textContent = "All Done"; // card grays out only after tapping it
   updateProgress();
   showToast("Set " + (si+1) + ": " + reps + " reps" + (weight > 0 ? " @ " + weight + "lb" : ""));
 }
@@ -2090,7 +2098,9 @@ function finishSession() {
 // ── COMPLETION SCREEN ──
 function showCompletionScreen() {
   var prog = activeProgram();
-  var progLogs = S.log.filter(function(l){ return l.programId === prog.id; });
+  var progLogs = S.log.filter(function(l){ return l.programId === prog.id && (!S.programStartDate || l.date >= S.programStartDate); });
+  var liftsLogged = progLogs.reduce(function(a,l){ return a + Object.keys(l.exerciseData || {}).length; }, 0);
+  document.getElementById("completeRestart").textContent = "Restart " + prog.name + " from Week 1";
   var totalSets = progLogs.reduce(function(a,l){ return a + (l.sets||0); }, 0);
   var next = nextProgram();
   document.getElementById("completeTitle").innerHTML = "You finished<br><em>" + prog.name + "</em>";
@@ -2098,8 +2108,8 @@ function showCompletionScreen() {
   document.getElementById("completeStats").innerHTML =
     '<div class="cs-card"><div class="cs-val">' + progLogs.length + '</div><div class="cs-lbl">Sessions</div></div>' +
     '<div class="cs-card"><div class="cs-val">' + totalSets + '</div><div class="cs-lbl">Total Sets</div></div>' +
-    '<div class="cs-card"><div class="cs-val">6</div><div class="cs-lbl">Weeks</div></div>' +
-    '<div class="cs-card"><div class="cs-val">' + (progLogs.length*3||0) + '</div><div class="cs-lbl">Lifts Done</div></div>';
+    '<div class="cs-card"><div class="cs-val">' + prog.totalWeeks + '</div><div class="cs-lbl">Weeks</div></div>' +
+    '<div class="cs-card"><div class="cs-val">' + liftsLogged + '</div><div class="cs-lbl">Lifts Logged</div></div>';
   document.getElementById("newProgramSlot").innerHTML = next
     ? '<div class="new-program-card" onclick="loadNewProgram(\'' + next.id + '\')"><div class="np-tag">New Program Available</div><div class="np-name">' + next.name + '</div><div class="np-meta">' + next.subtitle + ' - ' + next.totalWeeks + ' weeks</div><div class="np-arrow">&#8250;</div></div>'
     : '<div style="font-size:18px;color:var(--muted);text-align:center;padding:10px 0;">More programs coming soon.</div>';
@@ -2119,7 +2129,30 @@ function loadNewProgram(programId) {
   renderHome();
 }
 
-function dismissCompletion() { document.getElementById("completeScreen").classList.remove("open"); }
+function markCompletionSeen() {
+  if (!S.completionSeen) S.completionSeen = {};
+  S.completionSeen[S.activeProgramId] = S.programStartDate;
+  save();
+}
+
+// Close: stay in the finished block to review it (won't pop up again for this run)
+function dismissCompletion() {
+  markCompletionSeen();
+  document.getElementById("completeScreen").classList.remove("open");
+}
+
+// Start the same block again from Week 1 (past workouts stay in Progress history)
+function restartProgram() {
+  var prog = activeProgram();
+  if (!confirm("Start " + prog.name + " again from Week 1? Your past workouts stay in your Progress history.")) return;
+  markCompletionSeen();
+  S.programStartDate = todayKey();
+  S.currentWeek = 1;
+  save();
+  document.getElementById("completeScreen").classList.remove("open");
+  showToast(prog.name + " restarted - Week 1 begins!");
+  showScreen("home");
+}
 
 // ── COACH TAB ──
 function renderCoachTab() {
@@ -2168,8 +2201,8 @@ function exerciseEquipment(ex) {
 // ── UPCOMING BLOCKS (placeholders on the Coach tab) ──
 var UPCOMING_BLOCKS = [
   { name: "Strength Block",    sub: "Build on your foundation with heavier, focused lifting." },
-  { name: "Hypertrophy Block", sub: "Training designed to build lean muscle." },
-  { name: "Deload Block",      sub: "A lighter week to recover, reset, and come back stronger." }
+  { name: "Hypertrophy Block", sub: "Leverage your foundation and strength to build lean muscle." },
+  { name: "Deload Block",      sub: "A period of active rest to recover, reset, and come back stronger." }
 ];
 
 function renderUpcomingBlocks() {
