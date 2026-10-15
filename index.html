@@ -568,6 +568,19 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 .auth-forgot{display:block;margin:12px auto 0;background:none;border:none;color:var(--gold);font-family:inherit;font-size:16px;text-decoration:underline;cursor:pointer;padding:6px;}
 .auth-forgot:disabled{opacity:.6;}
 .auth-err.auth-ok{color:var(--green);}
+
+/* ── PARTIAL WORKOUTS ── */
+.resume-card{background:var(--ink2);border:1.5px solid var(--gold);border-radius:14px;padding:16px 18px;margin-bottom:12px;}
+.resume-tag{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);}
+.resume-name{font-family:'Cormorant Garamond',serif;font-size:25px;color:var(--cream);margin-top:2px;}
+.resume-meta{font-size:16px;color:var(--muted);margin-bottom:12px;}
+.resume-actions{display:flex;gap:8px;}
+.resume-btn{flex:1;padding:13px 8px;border-radius:12px;border:1px solid var(--gold);background:var(--gold);color:var(--ink);font-family:inherit;font-size:16px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;}
+.resume-btn.ghost{background:none;color:var(--cream);border-color:var(--border2);}
+.resume-discard{display:block;margin:10px auto 0;background:none;border:none;color:var(--muted);font-family:inherit;font-size:15px;text-decoration:underline;cursor:pointer;}
+.finish-early{margin:18px 22px 6px;text-align:center;}
+.finish-early button{width:100%;padding:14px;border-radius:12px;border:1px solid var(--border2);background:none;color:var(--cream);font-family:inherit;font-size:16px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;}
+.finish-early div{font-size:15px;color:var(--muted);margin-top:6px;}
 </style>
 </head>
 <body>
@@ -683,7 +696,7 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 <!-- SESSION -->
 <div id="session" class="screen">
   <div class="session-header">
-    <button class="session-back" onclick="showScreen('home')">← Back</button>
+    <button class="session-back" onclick="exitSession()">← Save &amp; exit</button>
     <div class="session-title" id="sessionTitle">—</div>
     <div class="session-sub" id="sessionSub">—</div>
   </div>
@@ -1876,7 +1889,16 @@ function renderWorkoutCards() {
   var todayLogs = S.log.filter(function(l){ return l.date === todayStr && l.programId === prog.id; });
   var container = document.getElementById("workoutCards");
   if (!container) return;
-  container.innerHTML = prog.workouts.map(function(w) {
+  var resumeHTML = "";
+  if (hasSavedSession()) {
+    var sw = prog.workouts.find(function(w){ return w.id === S.activeSession.workoutId; });
+    if (sw) resumeHTML = '<div class="resume-card"><div class="resume-tag">Workout in progress</div>' +
+      '<div class="resume-name">' + sw.name + '</div><div class="resume-meta">' + sessionSetCount() + (sessionSetCount() === 1 ? ' set' : ' sets') + ' logged so far</div>' +
+      '<div class="resume-actions"><button class="resume-btn" onclick="resumeSavedSession()">Resume</button>' +
+      '<button class="resume-btn ghost" onclick="finishSavedSession()">Finish &amp; save</button></div>' +
+      '<button class="resume-discard" onclick="discardSavedSession()">Discard</button></div>';
+  }
+  container.innerHTML = resumeHTML + prog.workouts.map(function(w) {
     var exArr = (w.exercises || []);
     var absArr = (w.abs || []);
     var count = todayLogs.filter(function(l){ return l.workoutId === w.id; }).length;
@@ -1927,22 +1949,115 @@ var timerLeft = 0;
 var timerTotal = 0;
 var openSetIdx = {};
 
+// ── PARTIAL WORKOUTS: progress is saved as you go, so you can leave and come back ──
+function sessionSetCount() {
+  return Object.values(S.sessionSets || {}).reduce(function(a, arr){ return a + (arr || []).filter(setDone).length; }, 0);
+}
+function hasSavedSession() {
+  return !!(S.activeSession && S.activeSession.workoutId && (sessionSetCount() > 0 || S.activeSession.warmupDone));
+}
+function persistSession() {
+  if (!S.activeSession || !activeWorkout) return;
+  S.activeSession.warmupDone = warmupDone;
+  save();
+}
+function clearSavedSession() {
+  S.activeSession = null;
+  S.sessionSets = {};
+  save();
+}
+
 function startWorkout(wId) {
   var prog = activeProgram();
+  var resuming = hasSavedSession() && S.activeSession.workoutId === wId;
+  if (hasSavedSession() && !resuming) {
+    var other = prog.workouts.find(function(w){ return w.id === S.activeSession.workoutId; });
+    if (!confirm("You have an unfinished " + (other ? other.name : "workout") + ". Start a new workout and discard it?\n\nTip: tap Cancel, then use \"Finish & save\" on Home to keep it.")) return;
+  }
   activeWorkout = prog.workouts.find(function(w){ return w.id === wId; });
   if (!activeWorkout) return;
-  S.sessionSets = {};
-  activeWorkout.exercises.concat(activeWorkout.abs).forEach(function(ex) {
-    S.sessionSets[ex.id] = Array(ex.sets).fill(false);
-  });
+  if (!resuming) {
+    S.sessionSets = {};
+    activeWorkout.exercises.concat(activeWorkout.abs).forEach(function(ex) {
+      S.sessionSets[ex.id] = Array(ex.sets).fill(false);
+    });
+    S.activeSession = { workoutId: wId, date: todayKey(), weekNum: S.currentWeek, warmupDone: false, doneEx: [] };
+  }
   warmupDone = false;
   timerLeft = WARMUP.defaultMinutes * 60;
   timerTotal = timerLeft;
   clearInterval(timerInterval);
   openSetIdx = {};
   renderSession();
+  if (resuming) restoreSessionUI();
   showScreen("session");
   var exList = document.getElementById("exList"); if (exList) exList.scrollTop = 0; // open workout at the top
+  if (resuming) showToast("Welcome back!");
+}
+
+// Redraw logged sets, finished exercises, and warm-up after resuming
+function restoreSessionUI() {
+  var w = activeWorkout, doneEx = (S.activeSession && S.activeSession.doneEx) || [];
+  w.exercises.concat(w.abs).forEach(function(ex) {
+    var sets = S.sessionSets[ex.id] || [];
+    if (sets.length !== ex.sets) { while (sets.length < ex.sets) sets.push(false); S.sessionSets[ex.id] = sets.slice(0, ex.sets); }
+    S.sessionSets[ex.id].forEach(function(st, si) {
+      if (!setDone(st)) return;
+      var bub = document.getElementById("sb-" + ex.id + "-" + si);
+      if (bub) { bub.classList.add("hit"); bub.textContent = "✓"; }
+      var info = document.getElementById("si-" + ex.id + "-" + si);
+      if (info && st && st.reps) info.textContent = st.weight > 0 ? st.reps + "r/" + st.weight + "lb" : st.reps + "r";
+    });
+    var btn = document.getElementById("eb-" + ex.id);
+    if (doneEx.indexOf(ex.id) !== -1) {
+      document.getElementById("ec-" + ex.id).classList.add("ex-done");
+      if (btn) { btn.textContent = "Complete"; btn.classList.add("ready"); }
+    } else if (S.sessionSets[ex.id].every(setDone) && btn) { btn.textContent = "All Done"; btn.classList.add("ready"); }
+  });
+  if (S.activeSession && S.activeSession.warmupDone) {
+    warmupDone = true;
+    var card = document.getElementById("warmupCard");
+    if (card) { card.style.opacity = ".55"; card.style.borderColor = "rgba(58,106,58,.4)"; }
+    var db = document.getElementById("wuDoneBtn");
+    if (db) { db.textContent = "Warm-Up Complete"; db.style.background = "#3a6a3a"; db.style.borderColor = "#3a6a3a"; }
+    var sb = document.getElementById("wuStartBtn"); if (sb) sb.style.display = "none";
+    lockExercises(false);
+  }
+  updateProgress();
+}
+
+// "Save & exit": progress is already saved; just go Home
+function exitSession() {
+  persistSession();
+  clearInterval(timerInterval); timerInterval = null;
+  if (sessionSetCount() > 0) showToast("Progress saved");
+  showScreen("home");
+}
+
+// Resume from the Home card
+function resumeSavedSession() { if (S.activeSession) startWorkout(S.activeSession.workoutId); }
+
+// Finish with whatever was logged so far
+function finishEarly() {
+  if (sessionSetCount() === 0) { showToast("Log at least one set first"); return; }
+  if (!confirm("Finish " + activeWorkout.name + " now with the " + sessionSetCount() + " sets you've logged?")) return;
+  finishSession();
+}
+
+function finishSavedSession() {
+  if (!hasSavedSession()) return;
+  var prog = activeProgram();
+  activeWorkout = prog.workouts.find(function(w){ return w.id === S.activeSession.workoutId; });
+  if (!activeWorkout) { clearSavedSession(); renderHome(); return; }
+  if (!confirm("Finish " + activeWorkout.name + " now with the " + sessionSetCount() + " sets you've logged?")) return;
+  finishSession();
+}
+
+function discardSavedSession() {
+  if (!confirm("Discard this unfinished workout? Logged sets will be lost.")) return;
+  clearSavedSession();
+  renderHome();
+  showToast("Workout discarded");
 }
 
 function renderSession() {
@@ -1952,7 +2067,8 @@ function renderSession() {
   var mainHTML = w.exercises.map(function(ex,i){ return exCardHTML(ex,i,w.exercises.length,"Lift"); }).join("");
   var absHTML = '<div class="abs-section"><div class="abs-title">Core Finisher</div>' + w.abs.map(function(ex,i){ return exCardHTML(ex,i,w.abs.length,"Core"); }).join("") + "</div>";
   document.getElementById("exList").innerHTML = buildWarmupHTML() + mainHTML + absHTML +
-    '<div class="finish-banner" id="finishBanner"><div class="finish-title">Session Complete!</div><div class="finish-sub">You showed up. That is the whole game.</div><button class="finish-btn" onclick="finishSession()">Save & Go Home</button></div>';
+    '<div class="finish-banner" id="finishBanner"><div class="finish-title">Session Complete!</div><div class="finish-sub">You showed up. That is the whole game.</div><button class="finish-btn" onclick="finishSession()">Save & Go Home</button></div>' +
+    '<div class="finish-early"><button onclick="finishEarly()">Finish workout now</button><div>Saves the sets you\'ve logged so far.</div></div>';
   renderTimerDisplay();
   lockExercises(true);
   updateProgress();
@@ -2014,6 +2130,7 @@ function completeWarmup() {
   if (db) { db.textContent = "Warm-Up Complete"; db.style.background = "#3a6a3a"; db.style.borderColor = "#3a6a3a"; }
   var sb = document.getElementById("wuStartBtn"); if (sb) sb.style.display = "none";
   lockExercises(false);
+  persistSession();
   showToast("Warm-up done - time to lift!");
   setTimeout(function() { var f = document.querySelector(".ex-card"); if (f) f.scrollIntoView({behavior:"smooth",block:"start"}); }, 400);
 }
@@ -2086,6 +2203,7 @@ function saveSetDetail(exId) {
   btn.classList.toggle("ready", allDone);
   if (allDone) btn.textContent = "All Done"; // card grays out only after tapping it
   updateProgress();
+  persistSession();
   showToast("Set " + (si+1) + ": " + reps + " reps" + (weight > 0 ? " @ " + weight + "lb" : ""));
 }
 
@@ -2100,7 +2218,9 @@ function markAllDone(exId) {
   document.getElementById("ec-" + exId).classList.add("ex-done");
   var btn = document.getElementById("eb-" + exId);
   btn.textContent = "Complete"; btn.classList.add("ready");
+  if (S.activeSession) { if (!S.activeSession.doneEx) S.activeSession.doneEx = []; if (S.activeSession.doneEx.indexOf(exId) === -1) S.activeSession.doneEx.push(exId); }
   updateProgress();
+  persistSession();
   showToast("Exercise complete!");
   setTimeout(function() {
     var next = document.getElementById("ec-" + exId).nextElementSibling;
@@ -2134,7 +2254,10 @@ function finishSession() {
     }
   });
   var totalSets = Object.values(S.sessionSets).reduce(function(a,arr){ return a + arr.filter(setDone).length; }, 0);
-  S.log.push({ date:todayKey(), programId:S.activeProgramId, weekNum:S.currentWeek, workoutId:w.id, name:w.name, sets:totalSets, exerciseData:exerciseData });
+  var sess = S.activeSession || {};
+  S.log.push({ date: sess.date || todayKey(), programId:S.activeProgramId, weekNum: sess.weekNum || S.currentWeek, workoutId:w.id, name:w.name, sets:totalSets, exerciseData:exerciseData });
+  S.activeSession = null;
+  S.sessionSets = {};
   save();
   showToast("Workout saved!");
   setTimeout(function(){ showScreen("home"); }, 700);
