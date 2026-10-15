@@ -1043,7 +1043,15 @@ async function doForgotPassword() {
   btn.disabled = true; btn.textContent = "Sending…";
   try {
     // After resetting, the "Continue" link brings them back to this app
-    await window._fbModules.sendPasswordResetEmail(window._enduraAuth, email, { url: location.origin + location.pathname });
+    try {
+      await window._fbModules.sendPasswordResetEmail(window._enduraAuth, email, { url: location.origin + location.pathname });
+    } catch(e1) {
+      // If the "return to app" link isn't allowed in Firebase settings, send the plain reset email instead
+      if (/continue-uri|unauthorized-domain/.test(e1.code || "")) {
+        console.warn("Reset email: continue link not allowed (" + e1.code + "), sending without it.");
+        await window._fbModules.sendPasswordResetEmail(window._enduraAuth, email);
+      } else { throw e1; }
+    }
     err.classList.add("auth-ok");
     err.textContent = "If there's an account for " + email + ", a reset link is on its way. Check your inbox (and spam folder).";
   } catch(e) {
@@ -1056,7 +1064,8 @@ async function doForgotPassword() {
     } else if (e.code === "auth/too-many-requests") {
       err.textContent = "Too many tries. Please wait a few minutes and try again.";
     } else {
-      err.textContent = "Couldn't send the reset email. Please try again.";
+      err.textContent = "Couldn't send the reset email. Please try again." + (e.code ? " (" + e.code.replace("auth/", "") + ")" : "");
+      console.error("Reset email failed:", e);
     }
   } finally {
     btn.disabled = false; btn.textContent = "Forgot password?";
