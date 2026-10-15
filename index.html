@@ -16,7 +16,7 @@
      ═══════════════════════════════════════════════════════════ -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, onSnapshot, runTransaction, collection, getDocs, query, orderBy, limit }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -39,7 +39,7 @@ const db   = getFirestore(app);
 // Expose to global scope so non-module functions can reach them
 window._enduraAuth = auth;
 window._enduraDb   = db;
-window._fbModules  = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, onSnapshot, runTransaction, collection, getDocs, query, orderBy, limit };
+window._fbModules  = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, doc, setDoc, getDoc, onSnapshot, runTransaction, collection, getDocs, query, orderBy, limit };
 
 // ── Core function: check user access and route accordingly ──
 async function checkAndRouteUser(user) {
@@ -564,6 +564,10 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 
 .complete-x{position:absolute;top:calc(env(safe-area-inset-top, 0px) + 14px);right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:none;color:var(--cream);font-size:28px;line-height:1;cursor:pointer;}
 .complete-restart{width:100%;max-width:360px;margin-top:14px;padding:15px;border-radius:12px;border:1px solid var(--gold);background:var(--gold);color:var(--ink);font-family:inherit;font-size:17px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;}
+
+.auth-forgot{display:block;margin:12px auto 0;background:none;border:none;color:var(--gold);font-family:inherit;font-size:16px;text-decoration:underline;cursor:pointer;padding:6px;}
+.auth-forgot:disabled{opacity:.6;}
+.auth-err.auth-ok{color:var(--green);}
 </style>
 </head>
 <body>
@@ -584,6 +588,7 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
       <div class="auth-field"><div class="auth-label">Email</div><input class="auth-input" id="loginEmail" type="email" placeholder="your@email.com" autocomplete="email"></div>
       <div class="auth-field"><div class="auth-label">Password</div><div class="auth-pw-wrap"><input class="auth-input" id="loginPassword" type="password" placeholder="••••••••" autocomplete="current-password"><button type="button" class="auth-pw-toggle" onclick="togglePasswordVisibility('loginPassword', this)" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
       <button class="auth-btn" id="loginBtn" onclick="doSignIn()">Sign In</button>
+      <button class="auth-forgot" id="forgotBtn" onclick="doForgotPassword()">Forgot password?</button>
       <div class="auth-err" id="loginErr"></div>
     </div>
     <div id="authFormSignup" style="display:none;">
@@ -1016,6 +1021,7 @@ async function doSignIn() {
   var email = document.getElementById("loginEmail").value.trim();
   var pass  = document.getElementById("loginPassword").value;
   var err   = document.getElementById("loginErr");
+  err.classList.remove("auth-ok");
   if (!email || !pass) { err.textContent = "Please enter email and password."; return; }
   setAuthLoading("loginBtn", true, "Sign In");
   try {
@@ -1024,6 +1030,36 @@ async function doSignIn() {
   } catch(e) {
     err.textContent = friendlyAuthError(e.code);
     setAuthLoading("loginBtn", false, "Sign In");
+  }
+}
+
+// ── FORGOT PASSWORD: emails a reset link to the address typed in the Email box ──
+async function doForgotPassword() {
+  var email = document.getElementById("loginEmail").value.trim();
+  var err = document.getElementById("loginErr");
+  err.classList.remove("auth-ok");
+  if (!email) { err.textContent = "Type your email above, then tap \"Forgot password?\" again."; document.getElementById("loginEmail").focus(); return; }
+  var btn = document.getElementById("forgotBtn");
+  btn.disabled = true; btn.textContent = "Sending…";
+  try {
+    // After resetting, the "Continue" link brings them back to this app
+    await window._fbModules.sendPasswordResetEmail(window._enduraAuth, email, { url: location.origin + location.pathname });
+    err.classList.add("auth-ok");
+    err.textContent = "If there's an account for " + email + ", a reset link is on its way. Check your inbox (and spam folder).";
+  } catch(e) {
+    if (e.code === "auth/user-not-found") {
+      // Same message either way, so we don't reveal which emails have accounts
+      err.classList.add("auth-ok");
+      err.textContent = "If there's an account for " + email + ", a reset link is on its way. Check your inbox (and spam folder).";
+    } else if (e.code === "auth/invalid-email") {
+      err.textContent = "That email doesn't look right. Please check it and try again.";
+    } else if (e.code === "auth/too-many-requests") {
+      err.textContent = "Too many tries. Please wait a few minutes and try again.";
+    } else {
+      err.textContent = "Couldn't send the reset email. Please try again.";
+    }
+  } finally {
+    btn.disabled = false; btn.textContent = "Forgot password?";
   }
 }
 
