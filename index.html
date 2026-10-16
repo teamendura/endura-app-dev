@@ -79,6 +79,9 @@ async function checkAndRouteUser(user) {
   }
 }
 
+// Make it available to the code-redemption screen (outside this module)
+window.checkAndRouteUser = checkAndRouteUser;
+
 // ── Auth state listener ──────────────────────────────────────
 onAuthStateChanged(auth, async (user) => {
   window._appBooted = false;
@@ -1250,7 +1253,7 @@ async function redeemAccessCode() {
     errEl.textContent = "Code accepted! Loading your account…";
     errEl.classList.add("visible");
     window._userRole = "user";
-    await checkAndRouteUser(user);
+    await window.checkAndRouteUser(user);
   } catch (err) {
     btn.disabled = false;
     btn.textContent = "Redeem code";
