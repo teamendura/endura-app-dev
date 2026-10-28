@@ -6,6 +6,20 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="theme-color" content="#F6F1E8">
+<script>
+// iOS 26: after the keyboard closes (or the toolbar changes), the page can stay shifted,
+// which makes buttons near the bottom stop responding. Snap it back to the top.
+(function(){
+  function resetShift(){ try { if (window.scrollY || (window.visualViewport && window.visualViewport.offsetTop)) window.scrollTo(0, 0); } catch(e){} }
+  document.addEventListener("focusout", function(){ setTimeout(resetShift, 50); setTimeout(resetShift, 350); });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", function(){ setTimeout(resetShift, 50); });
+    window.visualViewport.addEventListener("scroll", function(){ setTimeout(resetShift, 50); });
+  }
+  window.addEventListener("pageshow", resetShift);
+  document.addEventListener("visibilitychange", function(){ if (!document.hidden) setTimeout(resetShift, 100); });
+})();
+</script>
 <script>try{if(localStorage.getItem("enduraTheme")==="dark"){document.documentElement.setAttribute("data-theme","dark");document.querySelector('meta[name="theme-color"]').setAttribute("content","#14110C");}}catch(e){}</script>
 <title>ENDURA</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -121,8 +135,8 @@ document.addEventListener("visibilitychange", async () => {
 }
 *,html,body{color-scheme:light only;}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost',sans-serif;font-weight:400;overflow:hidden;}
-.screen{position:fixed;inset:0;display:none;flex-direction:column;overflow:hidden;background:var(--ink);}
+html,body{height:100%;position:relative;background:var(--ink);color:var(--cream);font-family:'Jost',sans-serif;font-weight:400;overflow:hidden;}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden;background:var(--ink);}
 .screen.active{display:flex;}
 .scroll-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(100px + env(safe-area-inset-bottom, 0px));}
 .scroll-body::-webkit-scrollbar{display:none;}
@@ -130,7 +144,7 @@ html,body{height:100%;background:var(--ink);color:var(--cream);font-family:'Jost
 .app-header::after{content:'';position:absolute;bottom:0;left:22px;right:22px;height:1px;background:var(--border);}
 .logo-word{font-family:'Cormorant Garamond',serif;font-size:31px;font-weight:300;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;}
 .logo-sub{font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:1px;}
-.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);border-top:1px solid var(--border);display:flex;padding-bottom:max(env(safe-area-inset-bottom, 0px), 6px);z-index:100;}
+.nav-bar{position:absolute;bottom:0;left:0;right:0;background:var(--ink);border-top:1px solid var(--border);display:flex;padding-bottom:max(env(safe-area-inset-bottom, 0px), 6px);z-index:100;}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 0 11px;background:none;border:none;cursor:pointer;gap:3px;}
 .nav-icon{font-size:23px;line-height:1;}.nav-lbl{font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted);}
 .nav-btn.active .nav-lbl{color:var(--gold);}
@@ -688,7 +702,7 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
 <!-- ═══════════════════════════════════════════════════════
      APP SHELL — hidden until auth + payment confirmed
      ═══════════════════════════════════════════════════════ -->
-<div id="appShell" style="display:none;flex-direction:column;position:fixed;inset:0;">
+<div id="appShell" style="display:none;flex-direction:column;position:absolute;inset:0;">
 
 <!-- HOME -->
 <div id="home" class="screen active">
@@ -710,10 +724,6 @@ html[data-theme="dark"] #legalDocBody h3, html[data-theme="dark"] #legalDocBody 
     </div>
     <div class="week-grid au d1" id="weekGrid"></div>
     <div class="wg-hint au d1">Tap a week to view or edit</div>
-    <div class="home-greeting au d1">
-      <div class="greeting-line">Today is a<br><em id="homeDayLabel">—</em> kind of day.</div>
-      <div class="greeting-date" id="homeDate">—</div>
-    </div>
     <div class="coach-card au d1" id="coachCard"></div>
     <div class="section-label au d2">Daily Habits &amp; Weekly Goals</div>
     <div class="habit-row au d2" id="habitRingRow"></div>
@@ -1522,8 +1532,8 @@ function renderHome() {
   try {
     S.currentWeek = calcCurrentWeek();
     var now = new Date();
-    document.getElementById("homeDayLabel").textContent = DAYS[now.getDay()];
-    document.getElementById("homeDate").textContent = now.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"}).toUpperCase();
+    var _dl = document.getElementById("homeDayLabel"); if (_dl) _dl.textContent = DAYS[now.getDay()];
+    var _hd = document.getElementById("homeDate"); if (_hd) _hd.textContent = now.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"}).toUpperCase();
     var prog = activeProgram();
     var pct = Math.round(((S.currentWeek - 1) / prog.totalWeeks) * 100);
     document.getElementById("programBarName").textContent = prog.name.toUpperCase();
